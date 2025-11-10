@@ -69,8 +69,28 @@ function setAvailableHours(hours) {
     return saveConfig(config);
 }
 
+//Adds a fixed time block with flexible recurrence
 function addFixedBlock(name, startTime, endTime, recurring = true) {
     if (!isValidTimeFormat(startTime) || !isValidTimeFormat(endTime)) {
+        console.log("\n❌ Invalid time format\n");
+        return false;
+    }
+
+      // Validate recurrence type
+    if (!["daily", "weekly", "one-time"].includes(recurrence)) {
+        console.log("\n❌ Invalid recurrence. Use: daily, weekly, or one-time\n");
+        return false;
+    }
+    
+    // Validate weekly requires weekDay
+    if (recurrence === "weekly" && !weekDayOrDate) {
+        console.log("\n❌ Weekly blocks require a day (e.g., Monday, Tuesday)\n");
+        return false;
+    }
+    
+    // Validate one-time requires date
+    if (recurrence === "one-time" && !weekDayOrDate) {
+        console.log("\n❌ One-time blocks require a date (YYYY-MM-DD)\n");
         return false;
     }
 
@@ -78,9 +98,11 @@ function addFixedBlock(name, startTime, endTime, recurring = true) {
     
     const block = {
         name: name,
-        startTime: startTime,      // "12:00"
-        endTime: endTime,          // "13:00"
-        recurring: recurring       // true = daily, false = one-time
+        startTime: startTime,
+        endTime: endTime,
+        recurrence: recurrence,
+        weekDay: recurrence === "weekly" ? weekDayOrDate : null,
+        date: recurrence === "one-time" ? weekDayOrDate : null
     };
     
     config.fixedBlocks.push(block);
@@ -99,6 +121,7 @@ function removeFixedBlock(index) {
     return saveConfig(config);
 }
 
+
 function listFixedBlocks() {
     const config = loadConfig();
     return config.fixedBlocks;
@@ -112,5 +135,6 @@ module.exports = {
     addFixedBlock,        
     removeFixedBlock,     
     listFixedBlocks,
-    isValidTimeFormat  
+    isValidTimeFormat,
+    cleanupExpiredBlocks   
 };
