@@ -10,7 +10,8 @@ const {
     loadConfig,
     addFixedBlock,
     removeFixedBlock,
-    saveConfig
+    saveConfig,
+    cleanupExpiredBlocks
 } = require('./configManager');
 const {
     displaySchedule,
@@ -232,16 +233,61 @@ function handleAvailableHoursConfig(value) {
 function handleAddBlockConfig(name) {
     const startTime = process.argv[5];
     const endTime = process.argv[6];
-    const recurring = process.argv[7] !== 'false';
+    const recurrence = process.argv[7] || "daily"; // Default to daily
+    const weekDayOrDate = process.argv[8] || null;
 
     if (!name || !startTime || !endTime) {
-        console.log("\n❌ Usage: node jarvis.js config add-block <name> <start> <end> [recurring]\n");
-        console.log("Example: node jarvis.js config add-block Lunch 12:00 13:00\n");
+        console.log("\n❌ Usage: node jarvis.js config add-block <name> <start> <end> [recurrence] [day/date]\n");
+        console.log("Examples:");
+        console.log("  Daily:    node jarvis.js config add-block Lunch 12:00 13:00 daily");
+        console.log("  Weekly:   node jarvis.js config add-block Therapy 14:00 15:00 weekly Tuesday");
+        console.log("  One-time: node jarvis.js config add-block Dentist 10:00 11:00 one-time 2025-11-15\n");
         return;
     }
 
-    if (addFixedBlock(name, startTime, endTime, recurring)) {
-        console.log(`\n✓ Fixed block added: ${name} (${startTime} - ${endTime})\n`);
+    if (addFixedBlock(name, startTime, endTime, recurrence, weekDayOrDate)) {
+        let confirmMsg = `\n✓ Fixed block added: ${name} (${startTime} - ${endTime})`;
+        
+        if (recurrence === "weekly") {
+            confirmMsg += ` - Every ${weekDayOrDate}`;
+        } else if (recurrence === "one-time") {
+            confirmMsg += ` - On ${weekDayOrDate}`;
+        } else {
+            confirmMsg += " - Daily";
+        }
+        
+        console.log(confirmMsg + "\n");
+    }
+}
+
+
+function handleAddBlockConfig(name) {
+    const startTime = process.argv[5];
+    const endTime = process.argv[6];
+    const recurrence = process.argv[7] || "daily"; // Default to daily
+    const weekDayOrDate = process.argv[8] || null;
+
+    if (!name || !startTime || !endTime) {
+        console.log("\n❌ Usage: node jarvis.js config add-block <name> <start> <end> [recurrence] [day/date]\n");
+        console.log("Examples:");
+        console.log("  Daily:    node jarvis.js config add-block Lunch 12:00 13:00 daily");
+        console.log("  Weekly:   node jarvis.js config add-block Therapy 14:00 15:00 weekly Tuesday");
+        console.log("  One-time: node jarvis.js config add-block Dentist 10:00 11:00 one-time 2025-11-15\n");
+        return;
+    }
+
+    if (addFixedBlock(name, startTime, endTime, recurrence, weekDayOrDate)) {
+        let confirmMsg = `\n✓ Fixed block added: ${name} (${startTime} - ${endTime})`;
+        
+        if (recurrence === "weekly") {
+            confirmMsg += ` - Every ${weekDayOrDate}`;
+        } else if (recurrence === "one-time") {
+            confirmMsg += ` - On ${weekDayOrDate}`;
+        } else {
+            confirmMsg += " - Daily";
+        }
+        
+        console.log(confirmMsg + "\n");
     }
 }
 
@@ -261,6 +307,8 @@ function handleRemoveBlockConfig(value) {
 
 //Starts interactive REPL mode
 function startInteractiveMode() {
+    cleanupExpiredBlocks();
+
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
