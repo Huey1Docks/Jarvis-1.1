@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1762583998345,
+    "description": "Finish App Academy",
+    "frequency": "daily",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2025-12-24",
+    "priority": "high",
+    "metric": {
+      "dailyMinutes": 240,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762584270325,
+    "description": "Run",
+    "frequency": "daily",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2026-01-13",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 120,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762584316820,
+    "description": "Workout",
+    "frequency": "daily",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2026-01-13",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 60,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762584388404,
+    "description": "Work on Jarvis",
+    "frequency": "daily",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2025-12-24",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 120,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762584424824,
+    "description": "stretch",
+    "frequency": "daily",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2025-12-24",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 50,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762587775461,
+    "description": "Leetcode",
+    "frequency": "daily",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2025-12-24",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 60,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762588616079,
+    "description": "Clean ",
+    "frequency": "one-time",
+    "createdDate": "2025-11-08",
+    "weekDay": null,
+    "targetDate": "2025-11-07",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 60,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  }
+]

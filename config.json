@@ -1,0 +1,12 @@
+{
+  "startTime": "08:00",
+  "availableHours": "10:00",
+  "fixedBlocks": [
+    {
+      "name": "Gym-Basketball",
+      "startTime": "11:00",
+      "endTime": "13:00",
+      "recurring": true
+    }
+  ]
+}
