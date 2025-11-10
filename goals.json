@@ -22,7 +22,7 @@
     "frequency": "daily",
     "createdDate": "2025-11-08",
     "weekDay": null,
-    "targetDate": "2026-01-13",
+    "targetDate": "2026-02-03",
     "priority": "medium",
     "metric": {
       "dailyMinutes": 120,
@@ -39,7 +39,7 @@
     "frequency": "daily",
     "createdDate": "2025-11-08",
     "weekDay": null,
-    "targetDate": "2026-01-13",
+    "targetDate": "2026-02-03",
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
@@ -60,11 +60,11 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 120,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 3,
+      "expectedCompletions": 2,
+      "progressPercentage": 100,
+      "streak": 3,
+      "lastCompleted": "2025-11-10"
     }
   },
   {
@@ -73,7 +73,7 @@
     "frequency": "daily",
     "createdDate": "2025-11-08",
     "weekDay": null,
-    "targetDate": "2025-12-24",
+    "targetDate": "2026-02-03",
     "priority": "low",
     "metric": {
       "dailyMinutes": 50,
@@ -90,7 +90,7 @@
     "frequency": "daily",
     "createdDate": "2025-11-08",
     "weekDay": null,
-    "targetDate": "2025-12-24",
+    "targetDate": "2026-02-03",
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
@@ -109,6 +109,40 @@
     "weekDay": null,
     "targetDate": "2025-11-07",
     "priority": "low",
+    "metric": {
+      "dailyMinutes": 60,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762764906600,
+    "description": "Finish: Computer Organization and Design",
+    "frequency": "daily",
+    "createdDate": "2025-11-10",
+    "weekDay": null,
+    "targetDate": "2026-05-22",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 20,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1762765052805,
+    "description": "CS quiz and review",
+    "frequency": "weekly",
+    "createdDate": "2025-11-10",
+    "weekDay": "Sunday",
+    "targetDate": "2026-02-03",
+    "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
       "completed": 0,

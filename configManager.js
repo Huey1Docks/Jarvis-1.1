@@ -70,7 +70,7 @@ function setAvailableHours(hours) {
 }
 
 //Adds a fixed time block with flexible recurrence
-function addFixedBlock(name, startTime, endTime, recurring = true) {
+function addFixedBlock(name, startTime, endTime, recurrence, weekDayOrDate) {
     if (!isValidTimeFormat(startTime) || !isValidTimeFormat(endTime)) {
         console.log("\n❌ Invalid time format\n");
         return false;

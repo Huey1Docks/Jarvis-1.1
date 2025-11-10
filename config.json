@@ -3,10 +3,44 @@
   "availableHours": 10,
   "fixedBlocks": [
     {
-      "name": "Gym-Basketball",
+      "name": "Golden Hill: Gym",
       "startTime": "11:00",
       "endTime": "13:00",
-      "recurring": true
+      "recurrence": "weekly",
+      "weekDay": "Monday",
+      "date": null
+    },
+    {
+      "name": "Golden Hill: 5v5",
+      "startTime": "11:00",
+      "endTime": "13:00",
+      "recurrence": "weekly",
+      "weekDay": "Tuesday",
+      "date": null
+    },
+    {
+      "name": "Municiple: 5v5",
+      "startTime": "16:00",
+      "endTime": "18:00",
+      "recurrence": "weekly",
+      "weekDay": "Monday",
+      "date": null
+    },
+    {
+      "name": "Municiple: 5v5",
+      "startTime": "16:00",
+      "endTime": "18:00",
+      "recurrence": "weekly",
+      "weekDay": "wednesday",
+      "date": null
+    },
+    {
+      "name": "Plymouth: House",
+      "startTime": "19:00",
+      "endTime": "20:00",
+      "recurrence": "weekly",
+      "weekDay": "Thursday",
+      "date": null
     }
   ]
 }
