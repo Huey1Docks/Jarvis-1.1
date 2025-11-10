@@ -277,7 +277,7 @@ function deleteGoalCLI(goalNumber){
     const success = deleteGoal(goal);
 
     if(success){
-        console.log(`\n✓ Goal deleted: ${success[0].description}\n`);
+        console.log(`\n✓ Goal deleted: ${success.description}\n`);
     } else {
         console.log("\n❌ Failed to delete goal.\n");
     }
@@ -343,16 +343,16 @@ function handleConfig(subcommand, value) {
         console.log(`\n✓ Start time set to ${value}\n`);
         return;
     } else if (subcommand === 'available-hours') {
-        // Validate time format (HH:MM in 24-hour format)
-         if (!value || !/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/.test(value)) {
-        console.log("\n❌ Invalid time format. Use HH:MM (24-hour), e.g., 08:00 or 14:30\n");
+        const hours = parseInt(value);
+        if (isNaN(hours) || hours <= 0 || hours > 24) {
+        console.log("\n❌ Invalid hours. Must be between 1 and 24.\n");
         return;
-         }
-
+        }
+    
         const config = loadConfig();
-        config.availableHours = value;
+        config.availableHours = hours;
         saveConfig(config);
-        console.log(config.availableHours);
+        console.log(`\n✓ Available hours set to ${hours}\n`);
         return;
     } else if (subcommand === 'add-block') {
         // node jarvis.js config add-block Lunch 12:00 13:00
@@ -406,6 +406,13 @@ function startInteractiveMode(){
     }
     
     const [cmd, ...args] = trimmed.split(' ');
+
+    if (cmd.toLowerCase() === 'q' || cmd.toLowerCase() === 'quit' || cmd.toLowerCase() === 'exit') {
+        console.clear();
+        console.log('\n👋 Great work today! See you tomorrow!\n');
+        rl.close();
+        return;
+    }
     
     // Clear screen for cleaner display
     console.clear();
@@ -437,13 +444,6 @@ function startInteractiveMode(){
         case 'help':
             displayInteractiveHelp();
             break;
-        
-        case 'q':
-        case 'quit':
-        case 'exit':
-            console.log('\n👋 Great work today! See you tomorrow!\n');
-            rl.close();
-            return;
         
         default:
             console.log(`\n❌ Unknown command: "${cmd}". Type 'h' for help.`);

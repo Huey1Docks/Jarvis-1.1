@@ -1,6 +1,6 @@
 {
   "startTime": "08:00",
-  "availableHours": "10:00",
+  "availableHours": 10,
   "fixedBlocks": [
     {
       "name": "Gym-Basketball",

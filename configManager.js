@@ -19,14 +19,18 @@ function loadConfig(){
             // Merge with defaults to ensure all properties exist
             return {
                 ...DEFAULT_CONFIG,
-                ...config
+                ...config,
+
+                //fixedBlock will always be an array 
+
+                fixedBlocks: Array.isArray(config.fixedBlocks) ? config.fixedBlocks : []
             };
         }
     } catch(error){
         console.error("Error loading config:", error.message);
     }
 
-    return DEFAULT_CONFIG;
+    return {...DEFAULT_CONFIG};
 }
 
 function saveConfig(config){
@@ -39,32 +43,38 @@ function saveConfig(config){
     }
 }
 
+function isValidTimeFormat(time) {
+    return /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/.test(time);
+}
+
 function setStartTime(time) {
-    // TODO: Validate time format (HH:MM)
+    
+    if(!isValidTimeFormat(time)){
+        false;
+    }
+
     const config = loadConfig();
     config.startTime = time;
     return saveConfig(config);
 }
 
 function setAvailableHours(hours) {
+    const hoursNum = parseInt(hours);
+    if (isNaN(hoursNum) || hoursNum <= 0 || hoursNum > 24) {
+        return false;
+    }
+
     const config = loadConfig();
     config.availableHours = parseInt(hours);
     return saveConfig(config);
 }
 
 function addFixedBlock(name, startTime, endTime, recurring = true) {
-    let config = loadConfig();
-
-    console.log("DEBUG CONFIG:", config);
-
-
-    if (!config || typeof config !== 'object') {
-        config = {};
+    if (!isValidTimeFormat(startTime) || !isValidTimeFormat(endTime)) {
+        return false;
     }
 
-    if (!Array.isArray(config.fixedBlocks)) {
-        config.fixedBlocks = [];
-    }
+    const config = loadConfig();
     
     const block = {
         name: name,
@@ -77,13 +87,16 @@ function addFixedBlock(name, startTime, endTime, recurring = true) {
     return saveConfig(config);
 }
 
+//remove fixedBlock by index
 function removeFixedBlock(index) {
     const config = loadConfig();
-    if (index >= 0 && index < config.fixedBlocks.length) {
-        config.fixedBlocks.splice(index, 1);
-        return saveConfig(config);
+    
+    if (index < 0 || index >= config.fixedBlocks.length) {
+        return false;
     }
-    return false;
+    
+    config.fixedBlocks.splice(index, 1);
+    return saveConfig(config);
 }
 
 function listFixedBlocks() {
@@ -98,5 +111,6 @@ module.exports = {
     setAvailableHours,
     addFixedBlock,        
     removeFixedBlock,     
-    listFixedBlocks  
+    listFixedBlocks,
+    isValidTimeFormat  
 };
