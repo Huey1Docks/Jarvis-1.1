@@ -121,6 +121,31 @@ function removeFixedBlock(index) {
     return saveConfig(config);
 }
 
+//Removes one-time blocks that have passed
+function cleanupExpiredBlocks() {
+    const config = loadConfig();
+    const today = new Date().toISOString().split('T')[0];
+    
+    const initialCount = config.fixedBlocks.length;
+    
+    config.fixedBlocks = config.fixedBlocks.filter(block => {
+        // Keep all non-one-time blocks
+        if (block.recurrence !== "one-time") {
+            return true;
+        }
+        
+        // Keep one-time blocks that haven't happened yet or are today
+        return block.date >= today;
+    });
+    
+    const removedCount = initialCount - config.fixedBlocks.length;
+    
+    if (removedCount > 0) {
+        saveConfig(config);
+    }
+    
+    return removedCount;
+}
 
 function listFixedBlocks() {
     const config = loadConfig();
