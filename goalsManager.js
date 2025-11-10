@@ -146,8 +146,32 @@ function createFixedBlockEntry(block) {
 //store/prepare fixed blocks for scheduling in sorted order
 //array of blocks in minutes sorted by start time 
 function prepareFixedBlocks(config) {
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
+    const todayDayName = today.toLocaleDateString("en-US", { weekday: "long" });
+    
     return config.fixedBlocks
-        .filter(block => block.recurring)
+        .filter(block => {
+            // Handle old format for backwards compatibility
+            if (block.recurring !== undefined) {
+                return block.recurring; // Old daily blocks
+            }
+            
+            // New format
+            if (block.recurrence === "daily") {
+                return true;
+            }
+            
+            if (block.recurrence === "weekly") {
+                return block.weekDay === todayDayName;
+            }
+            
+            if (block.recurrence === "one-time") {
+                return block.date === todayString;
+            }
+            
+            return false;
+        })
         .map(block => ({
             name: block.name,
             start: timeToMinutes(block.startTime),
