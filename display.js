@@ -190,10 +190,22 @@ function displayConfig() {
     console.log(`Available Hours: ${config.availableHours}`);
     console.log(`\nFixed Blocks: ${config.fixedBlocks.length}`);
     
-    if (config.fixedBlocks.length > 0) {
+     if (config.fixedBlocks.length > 0) {
         config.fixedBlocks.forEach((block, i) => {
-            const recurring = block.recurring ? '(Daily)' : '(One-time)';
-            console.log(`  ${i + 1}. ${block.name}: ${block.startTime} - ${block.endTime} ${recurring}`);
+            let recurrenceInfo;
+            
+            if (block.recurrence === "daily") {
+                recurrenceInfo = "(Daily)";
+            } else if (block.recurrence === "weekly") {
+                recurrenceInfo = `(Weekly - ${block.weekDay})`;
+            } else if (block.recurrence === "one-time") {
+                recurrenceInfo = `(One-time - ${block.date})`;
+            } else {
+                // just in case: handle old format (for backwards compatibility)
+                recurrenceInfo = block.recurring ? "(Daily)" : "(One-time)";
+            }
+            
+            console.log(`  ${i + 1}. ${block.name}: ${block.startTime} - ${block.endTime} ${recurrenceInfo}`);
         });
     }
     console.log();
