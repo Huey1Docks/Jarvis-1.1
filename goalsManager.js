@@ -329,9 +329,8 @@ function calculateProgress(goal) {
     }
 
     // Recurring goals: actual vs expected
-    const today = new Date();
-    const createdDate = new Date(goal.createdDate);
-    const daysSinceCreated = Math.floor((today - createdDate) / (1000 * 60 * 60 * 24));
+    const todayInString = new Date().toISOString().split('T')[0];
+    const daysSinceCreated = getDaysSince(goal.createdDate, todayInString);
 
     let expectedCompletions;
     if (goal.frequency === 'daily') {
@@ -354,25 +353,41 @@ function calculateStreak(goal, todayString) {
     // One-time tasks don't have streaks
     if (goal.frequency === "one-time") return 0;
 
-    // First completion
-    if (!goal.metric.lastCompleted) return 1;
+    if(!goal.metric.lastCompleted) return 1;
 
-    const lastCompleted = new Date(goal.metric.lastCompleted);
-    const today = new Date(todayString);
-    const daysSinceLastCompleted = Math.floor((today - lastCompleted) / (1000 * 60 * 60 * 24));
+
+    const daysSinceLastCompleted = getDaysSince(goal.metric.lastCompleted, todayString);
 
     if (goal.frequency === "daily") {
         // Allow 1 day gap (grace period)
-        return daysSinceLastCompleted <= 1 ? goal.metric.streak + 1 : 1;
+        if(daysSinceLastCompleted <= 1){
+             return goal.metric.streak + 1;
+          }else{
+            return 1;
+          }
     }
 
     if (goal.frequency === "weekly") {
         const weeksSinceLastCompleted = Math.floor(daysSinceLastCompleted / 7);
         // Allow 1 week gap
-        return weeksSinceLastCompleted <= 1 ? goal.metric.streak + 1 : 1;
+        if(weeksSinceLastCompleted <= 1){
+             return goal.metric.streak + 1;
+          }else{
+            return 1;
+          }
     }
+}
 
-    return 1;
+// calculates full calendar days between two dates
+function getDaysSince(lastCompletedString, todayString) {
+    const lastCompleted = new Date(lastCompletedString);
+    const today = new Date(todayString);
+
+    // Normalize both dates to local midnight
+    lastCompleted.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return Math.floor((today - lastCompleted) / (1000 * 60 * 60 * 24));
 }
 
 // ============================================

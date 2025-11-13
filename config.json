@@ -1,6 +1,6 @@
 {
   "startTime": "08:00",
-  "availableHours": 10,
+  "availableHours": 5,
   "fixedBlocks": [
     {
       "name": "Golden Hill: Gym",
@@ -28,8 +28,8 @@
     },
     {
       "name": "Municiple: 5v5",
-      "startTime": "16:00",
-      "endTime": "18:00",
+      "startTime": "04:00",
+      "endTime": "06:00",
       "recurrence": "weekly",
       "weekDay": "wednesday",
       "date": null

@@ -9,11 +9,11 @@
     "priority": "high",
     "metric": {
       "dailyMinutes": 240,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 1,
+      "expectedCompletions": 4,
+      "progressPercentage": 25,
+      "streak": 1,
+      "lastCompleted": "2025-11-11"
     }
   },
   {
@@ -26,11 +26,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 120,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 2,
+      "expectedCompletions": 5,
+      "progressPercentage": 40,
+      "streak": 1,
+      "lastCompleted": "2025-11-13"
     }
   },
   {
@@ -43,11 +43,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 2,
+      "expectedCompletions": 5,
+      "progressPercentage": 40,
+      "streak": 1,
+      "lastCompleted": "2025-11-13"
     }
   },
   {
@@ -60,16 +60,16 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 120,
-      "completed": 3,
-      "expectedCompletions": 2,
+      "completed": 5,
+      "expectedCompletions": 5,
       "progressPercentage": 100,
-      "streak": 3,
-      "lastCompleted": "2025-11-10"
+      "streak": 1,
+      "lastCompleted": "2025-11-13"
     }
   },
   {
     "id": 1762584424824,
-    "description": "stretch",
+    "description": "Stretch",
     "frequency": "daily",
     "createdDate": "2025-11-08",
     "weekDay": null,
@@ -77,11 +77,11 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 50,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 2,
+      "expectedCompletions": 5,
+      "progressPercentage": 40,
+      "streak": 1,
+      "lastCompleted": "2025-11-13"
     }
   },
   {
@@ -94,11 +94,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 1,
+      "expectedCompletions": 4,
+      "progressPercentage": 25,
+      "streak": 1,
+      "lastCompleted": "2025-11-11"
     }
   },
   {
@@ -128,11 +128,11 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 20,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "completed": 4,
+      "expectedCompletions": 3,
+      "progressPercentage": 100,
+      "streak": 4,
+      "lastCompleted": "2025-11-13"
     }
   },
   {

@@ -137,7 +137,12 @@ function displayGoals(compact = false) {
         if (goal.frequency === 'one-time') {
             console.log(`   Status: ${goal.metric.completed > 0 ? '✓ Complete' : '○ Incomplete'}`);
         } else {
-            console.log(`   Progress: ${goal.metric.progressPercentage}% | Streak: ${goal.metric.streak} 🔥`);
+            let fireEmojiNum = '';
+            if(goal.metric.streak >= 5){
+                const numOfFireEmoji = Math.floor(goal.metric.streak / 5);
+                fireEmojiNum = '🔥'.repeat(numOfFireEmoji);
+            }
+            console.log(`   Progress: ${goal.metric.progressPercentage}% | Streak: ${goal.metric.streak} ${fireEmojiNum}`);
             if (!compact) {
                 console.log(`   Completions: ${goal.metric.completed}/${goal.metric.expectedCompletions} expected`);
             }
@@ -254,13 +259,14 @@ Commands:
   progress     Show today's progress
   
 Config Commands:
-  config                      Show configuration
-  config start-time HH:MM     Set start time
-  config available-hours N    Set available hours
-  config add-block NAME START END    Add fixed time block
-  config remove-block N       Remove fixed block
+  config                              Show configuration
+  config start-time HH:MM             Set start time
+  config available-hours N            Set available hours
+  config add-block NAME START END     Add fixed time block
+    -optional REOCCURANCE DAY||DATE    
+  config remove-block N               Remove fixed block
   
-  help         Show this message
+  help                                Show this message
     `);
 }
 

@@ -83,11 +83,20 @@ function promptAddGoal() {
 function promptWeeklyGoal(rl, description, frequency) {
     rl.question("Which day (Monday/Tuesday/...)? ", (weekDay) => {
         rl.question("Target date (YYYY-MM-DD)? ", (targetDate) => {
+            const todaysDate = new Date().toISOString().split('T')[0];
+            if(targetDate < todaysDate) {
+                console.log(`\nTarget date is in the past!\n`);
+                rl.close();
+                return;
+            } 
+
             rl.question("Priority (high/medium/low)? ", (priority) => {
-                const goal = createGoalObject(description, frequency, priority, targetDate, weekDay, 60);
+                rl.question("Daily minutes? ", (minutes) => {
+                const goal = createGoalObject(description, frequency, priority, targetDate, weekDay, parseInt(minutes));
                 addGoal(goal);
                 console.log("\n✓ Goal added successfully!\n");
                 rl.close();
+                });
             });
         });
     });
@@ -97,6 +106,13 @@ function promptWeeklyGoal(rl, description, frequency) {
 function promptDailyOrOneTimeGoal(rl, description, frequency) {
     rl.question('Daily minutes? ', (minutes) => {
         rl.question("Target date (YYYY-MM-DD)? ", (targetDate) => {
+            const todaysDate = new Date().toISOString().split('T')[0];
+            if(targetDate < todaysDate) {
+                console.log(`\nTarget date is in the past!\n `);
+                rl.close();
+                return;
+            } 
+
             rl.question("Priority (high/medium/low)? ", (priority) => {
                 const goal = createGoalObject(description, frequency, priority, targetDate, null, parseInt(minutes));
                 addGoal(goal);
@@ -137,8 +153,8 @@ function completeTaskCLI(taskNumber) {
 
     const goals = loadGoals();
     const scheduleData = generateTodaysSchedule(goals);
-    const completableTasks = scheduleData.tasks.filter(t => !t.isFixed);
-    const taskIndex = parseInt(taskNumber) - 1;
+    const completableTasks = scheduleData.tasks.filter(t => !t.isFixed);   //filter out fixed tasks
+    const taskIndex = parseInt(taskNumber) - 1;     //subtract 1 to match array indexing
 
     if (taskIndex < 0 || taskIndex >= completableTasks.length) {
         console.log(`\n❌ Invalid task number. You have ${completableTasks.length} tasks today.\n`);
