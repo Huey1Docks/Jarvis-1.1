@@ -153,6 +153,7 @@ function prepareFixedBlocks(config) {
     return config.fixedBlocks
         .filter(block => {
             // Handle old format for backwards compatibility
+                 //used to have recurring to only handle daily blocks in past code
             if (block.recurring !== undefined) {
                 return block.recurring; // Old daily blocks
             }
@@ -290,7 +291,8 @@ function completeTask(goalId) {
         return false;
     }
 
-    const todayString = new Date().toISOString().split('T')[0];
+    const todayString = new Date().toLocaleDateString("en-CA");
+
 
     // Create updated goal for accurate calculations
     const updatedGoal = {
