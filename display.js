@@ -165,7 +165,7 @@ function displayProgress() {
         return;
     }
     
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toLocaleDateString("en-CA");
     const completedToday = goals.filter(g => g.metric.lastCompleted === today);
     
     console.log('\n📈 TODAY\'S PROGRESS:\n');

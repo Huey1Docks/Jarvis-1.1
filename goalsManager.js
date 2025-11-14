@@ -54,7 +54,7 @@ function deleteGoal(goalId){
         if (index === -1) return false; 
 
         const [ deletedGoal ] = goals.splice(index, 1);   
-        console.log(`Deleted: ${deleteGoal}`);   
+        console.log(`Deleted: `, deletedGoal);   
         saveGoals(goals);
 
         return deletedGoal;  
@@ -90,7 +90,8 @@ function updateGoal(goalId, updates){
 function shouldGenerateTaskToday(goal){
     const todayDate = new Date();
     const dayName = todayDate.toLocaleDateString("en-US", { weekday: "long" });
-    const todayString = todayDate.toISOString().split('T')[0];
+    const todayString = new Date().toLocaleDateString("en-CA");
+
     
     //already completed today
     if(goal.metric.lastCompleted === todayString) {

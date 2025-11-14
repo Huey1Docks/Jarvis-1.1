@@ -9,7 +9,7 @@
     "priority": "high",
     "metric": {
       "dailyMinutes": 240,
-      "completed": 1,
+      "completed": 2,
       "expectedCompletions": 4,
       "progressPercentage": 25,
       "streak": 1,
@@ -26,10 +26,10 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 120,
-      "completed": 2,
-      "expectedCompletions": 5,
-      "progressPercentage": 40,
-      "streak": 1,
+      "completed": 3,
+      "expectedCompletions": 6,
+      "progressPercentage": 50,
+      "streak": 3,
       "lastCompleted": "2025-11-13"
     }
   },
@@ -44,10 +44,10 @@
     "metric": {
       "dailyMinutes": 60,
       "completed": 2,
-      "expectedCompletions": 5,
-      "progressPercentage": 40,
-      "streak": 1,
-      "lastCompleted": "2025-11-13"
+      "expectedCompletions": 4,
+      "progressPercentage": 50,
+      "streak": 2,
+      "lastCompleted": "2025-11-12"
     }
   },
   {
@@ -61,9 +61,9 @@
     "metric": {
       "dailyMinutes": 120,
       "completed": 5,
-      "expectedCompletions": 5,
-      "progressPercentage": 100,
-      "streak": 1,
+      "expectedCompletions": 6,
+      "progressPercentage": 83,
+      "streak": 6,
       "lastCompleted": "2025-11-13"
     }
   },
@@ -77,10 +77,10 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 50,
-      "completed": 2,
-      "expectedCompletions": 5,
-      "progressPercentage": 40,
-      "streak": 1,
+      "completed": 3,
+      "expectedCompletions": 6,
+      "progressPercentage": 50,
+      "streak": 3,
       "lastCompleted": "2025-11-13"
     }
   },
@@ -94,28 +94,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
-      "completed": 1,
-      "expectedCompletions": 4,
-      "progressPercentage": 25,
+      "completed": 2,
+      "expectedCompletions": 6,
+      "progressPercentage": 33,
       "streak": 1,
-      "lastCompleted": "2025-11-11"
-    }
-  },
-  {
-    "id": 1762588616079,
-    "description": "Clean ",
-    "frequency": "one-time",
-    "createdDate": "2025-11-08",
-    "weekDay": null,
-    "targetDate": "2025-11-07",
-    "priority": "low",
-    "metric": {
-      "dailyMinutes": 60,
-      "completed": 0,
-      "expectedCompletions": 0,
-      "progressPercentage": 0,
-      "streak": 0,
-      "lastCompleted": null
+      "lastCompleted": "2025-11-13"
     }
   },
   {
@@ -129,7 +112,7 @@
     "metric": {
       "dailyMinutes": 20,
       "completed": 4,
-      "expectedCompletions": 3,
+      "expectedCompletions": 4,
       "progressPercentage": 100,
       "streak": 4,
       "lastCompleted": "2025-11-13"
