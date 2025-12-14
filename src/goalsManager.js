@@ -3,80 +3,80 @@ const fs = require('fs');
 const path = require('path');
 const { loadConfig } = require('./configManager');
 
-const MEMORY_FILE = path.join(__dirname, './goals.json');
+const MEMORY_FILE = path.join(__dirname, '../data/goals.json');
 const BUFFER_MINUTES = 10; // Buffer time between tasks
 
-function loadGoals(){
-        try{
-            if(fs.existsSync(MEMORY_FILE)){
-                const data = fs.readFileSync(MEMORY_FILE, 'utf8');
-                return JSON.parse(data || '[]');
-            }
-        }catch(error){
-            console.error("Error loading memory:", error.message);
+function loadGoals() {
+    try {
+        if (fs.existsSync(MEMORY_FILE)) {
+            const data = fs.readFileSync(MEMORY_FILE, 'utf8');
+            return JSON.parse(data || '[]');
         }
-        return [];
+    } catch (error) {
+        console.error("Error loading memory:", error.message);
+    }
+    return [];
 }
 
-function saveGoals(goals){
-     try{
+function saveGoals(goals) {
+    try {
         const dir = path.dirname(MEMORY_FILE);
 
-        if(!fs.existsSync(dir)){
-            fs.mkdirSync(dir, {recursive: true});
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
         }
-        fs.writeFileSync(MEMORY_FILE, JSON.stringify(goals,null,2), 'utf8');
+        fs.writeFileSync(MEMORY_FILE, JSON.stringify(goals, null, 2), 'utf8');
         return true;
-    }catch(error){
+    } catch (error) {
         console.error("Error saving goals:", error.message);
         return false;
     }
 }
 
 
-function addGoal(goalData){
-    try{
+function addGoal(goalData) {
+    try {
         const data = loadGoals();
         data.push(goalData);
         saveGoals(data);
         return true;
-    }catch(error){
-        console.error('Error adding goal:' , error.message);
+    } catch (error) {
+        console.error('Error adding goal:', error.message);
         return false;
     }
 }
 
-function deleteGoal(goalId){
-    try{
+function deleteGoal(goalId) {
+    try {
         const goals = loadGoals();
         const index = goals.findIndex(goal => goal.id === goalId);
 
-        if (index === -1) return false; 
+        if (index === -1) return false;
 
-        const [ deletedGoal ] = goals.splice(index, 1);   
-        console.log(`Deleted: `, deletedGoal);   
+        const [deletedGoal] = goals.splice(index, 1);
+        console.log(`Deleted: `, deletedGoal);
         saveGoals(goals);
 
-        return deletedGoal;  
-    }catch(error){
+        return deletedGoal;
+    } catch (error) {
         console.error("Error deleting goal:", error.message);
         return false;
     }
 }
 
-function updateGoal(goalId, updates){
-    try{
+function updateGoal(goalId, updates) {
+    try {
         const data = loadGoals();
         const goalIndex = data.findIndex(goal => goal.id === goalId);
 
-        if(goalIndex === -1){
+        if (goalIndex === -1) {
             console.log("Goal was not found");
             return false;
         }
 
-        data[goalIndex] = {...data[goalIndex],...updates};
+        data[goalIndex] = { ...data[goalIndex], ...updates };
         return saveGoals(data);
-    }catch(error){
+    } catch (error) {
         console.error("Error updating goal:", error.message);
         return false;
     }
@@ -87,23 +87,23 @@ function updateGoal(goalId, updates){
 // ============================================
 
 //returns false/true if this goal needs a task today
-function shouldGenerateTaskToday(goal){
+function shouldGenerateTaskToday(goal) {
     const todayDate = new Date();
     const dayName = todayDate.toLocaleDateString("en-US", { weekday: "long" });
     const todayString = new Date().toLocaleDateString("en-CA");
 
-    
+
     //already completed today
-    if(goal.metric.lastCompleted === todayString) {
+    if (goal.metric.lastCompleted === todayString) {
         return false;
     }
 
     //check based on frequency eg.daily/weekly/one-time
-    if(goal.frequency === "daily") {
+    if (goal.frequency === "daily") {
         return todayString <= goal.targetDate;
-    } else if(goal.frequency === "weekly" && goal.weekDay === dayName) {
+    } else if (goal.frequency === "weekly" && goal.weekDay === dayName) {
         return todayString <= goal.targetDate;
-    } else if(goal.frequency === "one-time") {
+    } else if (goal.frequency === "one-time") {
         return todayString >= goal.targetDate;
     }
 
@@ -119,8 +119,8 @@ function createTask(goal, startTime, duration, partNumber = 1) {
     return {
         id: Date.now() + Math.random(),
         goalId: goal.id,
-        description: isMultiPart 
-            ? `${goal.description} (Part ${partNumber})` 
+        description: isMultiPart
+            ? `${goal.description} (Part ${partNumber})`
             : goal.description,
         startTime: formatTime(startTime),
         endTime: formatTime(startTime + duration),
@@ -150,28 +150,28 @@ function prepareFixedBlocks(config) {
     const today = new Date();
     const todayString = today.toISOString().split('T')[0];
     const todayDayName = today.toLocaleDateString("en-US", { weekday: "long" });
-    
+
     return config.fixedBlocks
         .filter(block => {
             // Handle old format for backwards compatibility
-                 //used to have recurring to only handle daily blocks in past code
+            //used to have recurring to only handle daily blocks in past code
             if (block.recurring !== undefined) {
                 return block.recurring; // Old daily blocks
             }
-            
+
             // New format
             if (block.recurrence === "daily") {
                 return true;
             }
-            
+
             if (block.recurrence === "weekly") {
                 return block.weekDay === todayDayName;
             }
-            
+
             if (block.recurrence === "one-time") {
                 return block.date === todayString;
             }
-            
+
             return false;
         })
         .map(block => ({
@@ -186,7 +186,7 @@ function prepareFixedBlocks(config) {
 //sort goals by priority and duration
 function sortGoalsByPriorityAndDuration(goals) {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
-    
+
     return goals.sort((a, b) => {
         // Sort by priority first
         if (priorityOrder[b.priority] !== priorityOrder[a.priority]) {
@@ -204,7 +204,7 @@ function scheduleGoalWithSplitting(goal, currentTime, fixedBlocks, schedule) {
     let partNumber = 1;
     let totalScheduled = 0;
 
-     while (remainingDuration > 0) {
+    while (remainingDuration > 0) {
         const proposedEnd = currentTime + remainingDuration;
 
         // Find overlapping fixed block
@@ -356,28 +356,28 @@ function calculateStreak(goal, todayString) {
     // One-time tasks don't have streaks
     if (goal.frequency === "one-time") return 0;
 
-    if(!goal.metric.lastCompleted) return 1;
+    if (!goal.metric.lastCompleted) return 1;
 
 
     const daysSinceLastCompleted = getDaysSince(goal.metric.lastCompleted, todayString);
 
     if (goal.frequency === "daily") {
         // Allow 1 day gap (grace period)
-        if(daysSinceLastCompleted <= 1){
-             return goal.metric.streak + 1;
-          }else{
+        if (daysSinceLastCompleted <= 1) {
+            return goal.metric.streak + 1;
+        } else {
             return 1;
-          }
+        }
     }
 
     if (goal.frequency === "weekly") {
         const weeksSinceLastCompleted = Math.floor(daysSinceLastCompleted / 7);
         // Allow 1 week gap
-        if(weeksSinceLastCompleted <= 1){
-             return goal.metric.streak + 1;
-          }else{
+        if (weeksSinceLastCompleted <= 1) {
+            return goal.metric.streak + 1;
+        } else {
             return 1;
-          }
+        }
     }
 }
 
@@ -427,16 +427,16 @@ module.exports = {
     addGoal,
     deleteGoal,
     updateGoal,
-    
+
     // Schedule generation
     shouldGenerateTaskToday,
     generateTodaysSchedule,
-    
+
     // Task completion
     completeTask,
     calculateProgress,
     calculateStreak,
-    
+
     // Utilities
     formatTime,
     timeToMinutes,

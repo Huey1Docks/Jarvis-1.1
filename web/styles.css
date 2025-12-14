@@ -1,0 +1,2305 @@
+/* ==========================================
+   JARVIS DASHBOARD - FUTURISTIC IRON MAN HUD
+   Advanced Holographic Interface
+   ========================================== */
+
+/* CSS Variables - Design System */
+:root {
+    /* Iron Man Color Palette */
+    --bg-primary: #050508;
+    --bg-secondary: #0a0a10;
+    --bg-tertiary: #12121a;
+    --bg-card: rgba(10, 10, 16, 0.85);
+    --bg-glass: rgba(255, 215, 0, 0.02);
+
+    /* Iron Man Signature Colors */
+    --iron-red: #ff1744;
+    --iron-red-light: #ff5252;
+    --iron-red-dark: #b71c1c;
+    --iron-gold: #ffd700;
+    --iron-gold-dark: #ffab00;
+    --arc-reactor-blue: #00e5ff;
+    --arc-reactor-light: #18ffff;
+    --arc-reactor-glow: rgba(0, 229, 255, 0.4);
+
+    /* Hologram Colors */
+    --holo-cyan: #00fff7;
+    --holo-magenta: #ff00ff;
+    --holo-white: rgba(255, 255, 255, 0.9);
+
+    /* Gradients */
+    --accent-gradient: linear-gradient(135deg, #ff1744 0%, #ffd700 50%, #00e5ff 100%);
+    --iron-gradient: linear-gradient(135deg, #ff1744 0%, #b71c1c 100%);
+    --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffab00 100%);
+    --arc-gradient: linear-gradient(135deg, #00e5ff 0%, #00b8d4 100%);
+    --holo-gradient: linear-gradient(135deg, rgba(0, 229, 255, 0.8), rgba(255, 215, 0, 0.8));
+    --accent-glow: 0 0 40px rgba(255, 215, 0, 0.5);
+
+    /* Priority Colors */
+    --priority-high: #ff1744;
+    --priority-medium: #ffd700;
+    --priority-low: #00e5ff;
+
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #b0bec5;
+    --text-muted: #78909c;
+    --text-gold: #ffd700;
+    --text-glow: #00e5ff;
+
+    /* Border & Effects */
+    --border-color: rgba(0, 229, 255, 0.2);
+    --border-glow: rgba(255, 215, 0, 0.6);
+    --border-red: rgba(255, 23, 68, 0.5);
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Fonts */
+    --font-family: 'Inter', 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================
+   FUTURISTIC BACKGROUND LAYERS
+   ========================================== */
+
+/* Base gradient with arc reactor glow */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(0, 229, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 90% 10%, rgba(255, 23, 68, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse 50% 30% at 10% 90%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -3;
+}
+
+/* Animated circuit/hex grid pattern */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(255, 215, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, 0.02) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    animation: gridPulse 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -2;
+}
+
+@keyframes gridPulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Scanline effect */
+.container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 229, 255, 0.01) 2px,
+            rgba(0, 229, 255, 0.01) 4px);
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanlines 0.1s linear infinite;
+}
+
+@keyframes scanlines {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(4px);
+    }
+}
+
+/* ==========================================
+   ARC REACTOR BRANDING
+   Technical Implementation Based on Spec
+   ========================================== */
+
+.arc-branding {
+    position: fixed;
+    top: var(--spacing-lg);
+    left: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    z-index: 100;
+    padding: var(--spacing-sm);
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    backdrop-filter: none;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible;
+    cursor: pointer;
+}
+
+/* Expand on hover to show name */
+.arc-branding:hover {
+    gap: var(--spacing-sm);
+}
+
+/* Arc Reactor - Compact Circular Power Core */
+.arc-reactor {
+    width: 52px;
+    height: 52px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Housing - Reinforced alloy shell */
+.arc-reactor__housing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+            rgba(60, 60, 70, 0.4) 0%,
+            rgba(20, 20, 25, 0.9) 50%,
+            rgba(10, 10, 15, 1) 100%);
+    border: 2px solid rgba(80, 80, 90, 0.5);
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(0, 229, 255, 0.1);
+    z-index: 0;
+}
+
+/* Power Conduits - Radial energy distribution */
+.arc-reactor__conduits {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.arc-reactor__conduit {
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background: linear-gradient(to center, transparent, rgba(0, 229, 255, 0.8));
+    left: 50%;
+    top: 4px;
+    transform-origin: center 22px;
+    opacity: 0.7;
+    box-shadow: 0 0 4px rgba(0, 229, 255, 0.5);
+}
+
+.arc-reactor__conduit:nth-child(1) {
+    transform: translateX(-50%) rotate(0deg);
+}
+
+.arc-reactor__conduit:nth-child(2) {
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.arc-reactor__conduit:nth-child(3) {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+.arc-reactor__conduit:nth-child(4) {
+    transform: translateX(-50%) rotate(135deg);
+}
+
+.arc-reactor__conduit:nth-child(5) {
+    transform: translateX(-50%) rotate(180deg);
+}
+
+.arc-reactor__conduit:nth-child(6) {
+    transform: translateX(-50%) rotate(225deg);
+}
+
+.arc-reactor__conduit:nth-child(7) {
+    transform: translateX(-50%) rotate(270deg);
+}
+
+.arc-reactor__conduit:nth-child(8) {
+    transform: translateX(-50%) rotate(315deg);
+}
+
+/* Animate conduits with energy pulse */
+.arc-reactor__conduit::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: var(--arc-reactor-blue);
+    border-radius: 50%;
+    top: 0;
+    box-shadow: 0 0 6px var(--arc-reactor-blue);
+    animation: conduitPulse 2s ease-in-out infinite;
+}
+
+.arc-reactor__conduit:nth-child(odd)::after {
+    animation-delay: -1s;
+}
+
+@keyframes conduitPulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scaleY(0.5);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+/* Outer Shield - Radiation/EM insulation */
+.arc-reactor__shield {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    background: transparent;
+    z-index: 2;
+    animation: shieldPulse 4s ease-in-out infinite;
+}
+
+.arc-reactor__shield::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 50%;
+    border: 1px dashed rgba(0, 229, 255, 0.15);
+    animation: ringRotateSlow 20s linear infinite;
+}
+
+@keyframes shieldPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(0, 229, 255, 0.1);
+        opacity: 0.6;
+    }
+
+    50% {
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        opacity: 1;
+    }
+}
+
+/* Concentric Rings - Regulation & Stability Control */
+.arc-reactor__ring {
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    z-index: 3;
+}
+
+/* Outer regulation ring */
+.arc-reactor__ring--outer {
+    width: 38px;
+    height: 38px;
+    border-width: 1.5px;
+    border-color: rgba(0, 229, 255, 0.5) transparent rgba(0, 229, 255, 0.5) transparent;
+    animation: ringRotate 6s linear infinite;
+    box-shadow:
+        0 0 8px rgba(0, 229, 255, 0.2),
+        inset 0 0 8px rgba(0, 229, 255, 0.1);
+}
+
+/* Middle phase-shift ring */
+.arc-reactor__ring--middle {
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+    border-color: transparent rgba(0, 229, 255, 0.6) transparent rgba(0, 229, 255, 0.6);
+    animation: ringRotate 4s linear infinite reverse;
+    box-shadow:
+        0 0 10px rgba(0, 229, 255, 0.25),
+        inset 0 0 10px rgba(0, 229, 255, 0.15);
+}
+
+/* Inner stabilization ring */
+.arc-reactor__ring--inner {
+    width: 22px;
+    height: 22px;
+    border-width: 1.5px;
+    border-color: rgba(255, 255, 255, 0.4);
+    animation: ringRotate 3s linear infinite;
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.2),
+        inset 0 0 6px rgba(0, 229, 255, 0.2);
+}
+
+@keyframes ringRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ringRotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Cooling Channels - Heat dissipation as light */
+.arc-reactor__cooling {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    z-index: 4;
+    background: conic-gradient(from 0deg,
+            transparent 0deg,
+            rgba(0, 229, 255, 0.3) 30deg,
+            transparent 60deg,
+            rgba(0, 229, 255, 0.3) 90deg,
+            transparent 120deg,
+            rgba(0, 229, 255, 0.3) 150deg,
+            transparent 180deg,
+            rgba(0, 229, 255, 0.3) 210deg,
+            transparent 240deg,
+            rgba(0, 229, 255, 0.3) 270deg,
+            transparent 300deg,
+            rgba(0, 229, 255, 0.3) 330deg,
+            transparent 360deg);
+    animation: coolingRotate 2s linear infinite reverse;
+    opacity: 0.8;
+}
+
+@keyframes coolingRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Electromagnetic Containment Field */
+.arc-reactor__containment {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 5;
+    animation: containmentPulse 1s ease-in-out infinite;
+    box-shadow:
+        0 0 4px rgba(255, 255, 255, 0.3),
+        inset 0 0 4px rgba(0, 229, 255, 0.2);
+}
+
+@keyframes containmentPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Central Energy Core - Primary Reaction Nexus */
+.arc-reactor__core {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    z-index: 6;
+    background: radial-gradient(circle,
+            #ffffff 0%,
+            #e0ffff 30%,
+            var(--arc-reactor-blue) 70%,
+            rgba(0, 229, 255, 0.8) 100%);
+    box-shadow:
+        0 0 2px #ffffff,
+        0 0 5px #ffffff,
+        0 0 10px var(--arc-reactor-blue),
+        0 0 15px var(--arc-reactor-blue),
+        0 0 20px var(--arc-reactor-blue);
+    animation: coreStable 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes coreStable {
+    0% {
+        box-shadow:
+            0 0 2px #ffffff,
+            0 0 5px #ffffff,
+            0 0 10px var(--arc-reactor-blue),
+            0 0 15px var(--arc-reactor-blue),
+            0 0 20px var(--arc-reactor-blue);
+    }
+
+    100% {
+        box-shadow:
+            0 0 3px #ffffff,
+            0 0 8px #ffffff,
+            0 0 15px var(--arc-reactor-blue),
+            0 0 25px var(--arc-reactor-blue),
+            0 0 35px var(--arc-reactor-blue);
+    }
+}
+
+/* Core Glow - Blue-white luminescence indicating stable output */
+.arc-reactor__core-glow {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    z-index: 5;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.4) 0%,
+            rgba(0, 229, 255, 0.2) 40%,
+            transparent 70%);
+    animation: glowPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+}
+
+/* Brighten core on hover */
+.arc-branding:hover .arc-reactor__core {
+    animation: coreIntense 0.3s ease-in-out infinite alternate;
+    transform: scale(1.2);
+    box-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ffffff,
+        0 0 20px var(--arc-reactor-blue),
+        0 0 35px var(--arc-reactor-blue),
+        0 0 50px var(--arc-reactor-blue),
+        0 0 70px rgba(0, 229, 255, 0.5);
+}
+
+.arc-branding:hover .arc-reactor__core-glow {
+    transform: scale(1.8);
+    opacity: 1;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.7) 0%,
+            rgba(0, 229, 255, 0.5) 40%,
+            transparent 70%);
+}
+
+.arc-branding:hover .arc-reactor__containment {
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.6),
+        inset 0 0 8px rgba(0, 229, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.arc-branding:hover .arc-reactor__ring {
+    box-shadow:
+        0 0 15px rgba(0, 229, 255, 0.5),
+        inset 0 0 15px rgba(0, 229, 255, 0.3);
+}
+
+.arc-branding:hover .arc-reactor__cooling {
+    opacity: 1;
+    filter: brightness(1.5);
+}
+
+@keyframes coreIntense {
+    0% {
+        box-shadow:
+            0 0 5px #ffffff,
+            0 0 10px #ffffff,
+            0 0 20px var(--arc-reactor-blue),
+            0 0 35px var(--arc-reactor-blue),
+            0 0 50px var(--arc-reactor-blue);
+    }
+
+    100% {
+        box-shadow:
+            0 0 8px #ffffff,
+            0 0 15px #ffffff,
+            0 0 30px var(--arc-reactor-blue),
+            0 0 50px var(--arc-reactor-blue),
+            0 0 80px var(--arc-reactor-blue),
+            0 0 100px rgba(0, 229, 255, 0.3);
+    }
+}
+
+/* Branding Name - Tactical HUD Style Reveal */
+.arc-branding__name {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--arc-reactor-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    white-space: nowrap;
+
+    /* Hidden by default */
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-left: 0;
+
+    /* Instant response - no delay */
+    transition:
+        max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.15s ease,
+        padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    text-shadow:
+        0 0 8px rgba(0, 229, 255, 0.8),
+        0 0 15px rgba(0, 229, 255, 0.4);
+}
+
+/* Tactical scanline overlay */
+.arc-branding__name::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 229, 255, 0.3) 40%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(0, 229, 255, 0.3) 60%,
+            transparent 100%);
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Underline beam that draws in */
+.arc-branding__name::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            var(--arc-reactor-blue) 0%,
+            rgba(255, 255, 255, 0.9) 50%,
+            var(--arc-reactor-blue) 100%);
+    box-shadow: 0 0 8px var(--arc-reactor-blue);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+/* Show name when hovering - instant tactical reveal */
+.arc-branding:hover .arc-branding__name {
+    max-width: 120px;
+    opacity: 1;
+    padding-left: var(--spacing-sm);
+    animation: tacticalReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scanline sweep across text */
+.arc-branding:hover .arc-branding__name::before {
+    opacity: 1;
+    animation: scanlineSweep 0.5s ease-out forwards;
+}
+
+/* Underline draws in after reveal */
+.arc-branding:hover .arc-branding__name::after {
+    width: 100%;
+}
+
+/* Tactical reveal - like HUD powering on */
+@keyframes tacticalReveal {
+    0% {
+        max-width: 0;
+        opacity: 0;
+        filter: blur(4px);
+        transform: translateX(-5px);
+    }
+
+    30% {
+        opacity: 0.5;
+        filter: blur(2px);
+    }
+
+    100% {
+        max-width: 120px;
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+    }
+}
+
+/* Scanline sweep effect - spy movie hologram */
+@keyframes scanlineSweep {
+    0% {
+        left: -100%;
+        opacity: 1;
+    }
+
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+/* ==========================================
+   LAYOUT
+   ========================================== */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    padding-top: 80px;
+    /* Space for fixed branding */
+    position: relative;
+}
+
+/* ==========================================
+   HEADER - Holographic Title Display
+   ========================================== */
+
+/* ==========================================
+   PARTICLES BACKGROUND
+   ========================================== */
+
+#particles-container {
+    display: none;
+}
+
+canvas {
+    display: none;
+}
+
+/* ==========================================
+   HEADER - Chronometer Watch Design
+   ========================================== */
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl) 0;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 10;
+    height: 450px;
+    /* Allocated space for the large rings */
+    overflow: hidden;
+    /* Clip anything flying too far out */
+}
+
+/* Remove old HUD border */
+.header::before {
+    display: none;
+}
+
+.chronometer {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.8);
+    /* Scale down slightly to fit */
+}
+
+/* Common Ring Base */
+.chronometer__ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Base centering */
+    border-radius: 50%;
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+    /* Smooth rotation */
+}
+
+/* Outer Ring: Years */
+.chronometer__ring--years {
+    width: 550px;
+    height: 550px;
+    border: 1px dashed rgba(0, 229, 255, 0.15);
+    z-index: 1;
+}
+
+/* Middle Ring: Months */
+.chronometer__ring--months {
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    z-index: 2;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.05);
+}
+
+/* Inner Ring: Days */
+.chronometer__ring--days {
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    z-index: 3;
+    background: radial-gradient(circle, transparent 60%, rgba(0, 229, 255, 0.05) 100%);
+}
+
+/* Ring Item (Text) */
+.ring-item {
+    position: absolute;
+    top: 50%;
+    /* Center of ring */
+    left: 50%;
+    /* Center of ring */
+    transform-origin: 0 0;
+    /* Rotate around this point */
+    color: rgba(0, 229, 255, 0.4);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    text-align: center;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Active Item (Aligned to top) */
+.ring-item.active {
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--arc-reactor-blue);
+    font-weight: bold;
+}
+
+/* Specific styling for ring levels */
+.chronometer__ring--years .ring-item {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+}
+
+.chronometer__ring--months .ring-item {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+}
+
+.chronometer__ring--days .ring-item {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Centerpiece */
+.chronometer__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, rgba(10, 10, 16, 0.9) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.header__title--small {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+    line-height: 1;
+}
+
+.header__subtitle--small {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--arc-reactor-blue);
+    letter-spacing: 0.3em;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+/* Indicator Line (12 o'clock) */
+.chronometer__indicator {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--arc-reactor-blue), transparent);
+    z-index: 5;
+    box-shadow: 0 0 10px var(--arc-reactor-blue);
+}
+
+/* Removed Glitch pseudo-elements */
+.header__title::before,
+.header__title::after {
+    display: none;
+}
+
+@keyframes glitchTop {
+
+    0%,
+    90%,
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    92% {
+        opacity: 0.8;
+        transform: translateX(-5px);
+    }
+
+    94% {
+        opacity: 0;
+        transform: translateX(5px);
+    }
+}
+
+@keyframes glitchBottom {
+
+    0%,
+    90%,
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    93% {
+        opacity: 0.8;
+        transform: translateX(5px);
+    }
+
+    95% {
+        opacity: 0;
+        transform: translateX(-5px);
+    }
+}
+
+@keyframes hologramFlicker {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.5)) brightness(1);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.6)) brightness(1.1);
+    }
+
+    52% {
+        filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3)) brightness(0.9);
+    }
+
+    54% {
+        filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.6)) brightness(1.1);
+    }
+}
+
+/* Subtitle Styling */
+.header__subtitle {
+    font-family: var(--font-mono);
+    color: var(--arc-reactor-blue);
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-top: var(--spacing-sm);
+    margin-bottom: 0;
+    opacity: 0.8;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Decorative lines flanking subtitle */
+.header__subtitle::before,
+.header__subtitle::after {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--arc-reactor-blue));
+    margin: 0 var(--spacing-md);
+    opacity: 0.5;
+}
+
+.header__subtitle::after {
+    background: linear-gradient(270deg, transparent, var(--arc-reactor-blue));
+}
+
+/* Removed Glitch pseudo-elements */
+.header__title::before,
+.header__title::after {
+    display: none;
+}
+
+@keyframes textGlow {
+    from {
+        text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(0, 229, 255, 0.8), 0 0 30px rgba(0, 229, 255, 0.4);
+    }
+}
+
+/* Top Right Date Positioning */
+.top-date {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: linear-gradient(135deg, rgba(255, 23, 68, 0.1), rgba(0, 229, 255, 0.05));
+    border: 1px solid var(--border-color);
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    color: var(--text-gold);
+}
+
+/* Reusing data pulse effect for date */
+.top-date::before {
+    content: '◈';
+    color: var(--arc-reactor-blue);
+    animation: dataPulse 1s ease-in-out infinite;
+}
+
+/* ==========================================
+   BRANDING DOTS
+   ========================================== */
+
+.arc-branding__dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin-left: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.arc-branding:hover .arc-branding__dots {
+    opacity: 1;
+    transition-delay: 0.4s;
+}
+
+.brand-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--arc-reactor-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 4px var(--arc-reactor-blue);
+    animation: blinkBrand 1.5s infinite;
+}
+
+.brand-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.brand-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blinkBrand {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* ==========================================
+   BOOT SEQUENCE UTILITIES
+   ========================================== */
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================
+   BUTTON RIPPLE EFFECT
+   ========================================== */
+
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease-out, height 0.6s ease-out, opacity 0.6s ease-out;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.btn-ripple:active::after {
+    width: 400px;
+    height: 400px;
+    opacity: 1;
+    transition: 0s;
+}
+
+/* ==========================================
+   NAVIGATION TABS - Futuristic Panel
+   ========================================== */
+
+.nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-xs);
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 229, 255, 0.05) 20%,
+            rgba(0, 229, 255, 0.05) 80%,
+            transparent 100%);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    border-top: 1px solid rgba(0, 229, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+}
+
+/* Decorative side elements */
+.nav-tabs::before,
+.nav-tabs::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--arc-reactor-blue));
+    box-shadow: 0 0 5px var(--arc-reactor-blue);
+}
+
+.nav-tabs::before {
+    right: 100%;
+    margin-right: 10px;
+}
+
+.nav-tabs::after {
+    left: 100%;
+    margin-left: 10px;
+    transform: scaleX(-1);
+}
+
+.nav-tabs__btn {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: rgba(10, 10, 16, 0.6);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    overflow: hidden;
+}
+
+/* Scanline effect on hover */
+.nav-tabs__btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(transparent,
+            rgba(0, 229, 255, 0.2),
+            transparent);
+    transform: rotate(45deg) translateY(-100%);
+    transition: transform 0.6s;
+    pointer-events: none;
+}
+
+.nav-tabs__btn:hover::before {
+    transform: rotate(45deg) translateY(100%);
+}
+
+.nav-tabs__btn:hover {
+    color: var(--arc-reactor-blue);
+    background: rgba(0, 229, 255, 0.05);
+    border-color: rgba(0, 229, 255, 0.4);
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.nav-tabs__btn.active {
+    background: linear-gradient(180deg, rgba(255, 215, 0, 0.15), rgba(0, 0, 0, 0.5));
+    color: var(--iron-gold);
+    border-color: var(--iron-gold);
+    box-shadow:
+        inset 0 0 20px rgba(255, 215, 0, 0.1),
+        0 0 10px rgba(255, 215, 0, 0.2);
+    z-index: 1;
+}
+
+/* Active energy pulse indicator */
+.nav-tabs__btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: var(--iron-gold);
+    box-shadow: 0 0 10px var(--iron-gold);
+    animation: tabPulse 2s ease-in-out infinite;
+}
+
+@keyframes tabPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        width: 40%;
+    }
+
+    50% {
+        opacity: 1;
+        width: 70%;
+    }
+}
+
+/* ==========================================
+   TAB CONTENT
+   ========================================== */
+
+.tab-content {
+    display: none;
+    animation: holoFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes holoFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* ==========================================
+   CARDS - Glassmorphism Holographic Panels
+   ========================================== */
+
+.card {
+    background: linear-gradient(135deg, rgba(10, 10, 16, 0.7), rgba(5, 5, 8, 0.6));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 0;
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(0, 229, 255, 0.02);
+}
+
+/* Corner decorations */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border-top: 2px solid var(--arc-reactor-blue);
+    border-left: 2px solid var(--arc-reactor-blue);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    border-bottom: 2px solid var(--iron-gold);
+    border-right: 2px solid var(--iron-gold);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: rgba(0, 229, 255, 0.5);
+    transform: translateY(-8px);
+    box-shadow:
+        0 20px 60px rgba(0, 229, 255, 0.2),
+        0 0 40px rgba(0, 229, 255, 0.15),
+        inset 0 0 60px rgba(0, 229, 255, 0.03);
+}
+
+/* Corner decorations - Reduced on Hover */
+.card:hover::before {
+    width: 20px;
+    /* Reduced from 80px */
+    height: 20px;
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+}
+
+.card:hover::after {
+    width: 20px;
+    /* Reduced from 80px */
+    height: 20px;
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+}
+
+.card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--arc-reactor-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.card__title::before {
+    content: '//';
+    color: var(--iron-red);
+}
+
+.card__subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+/* ==========================================
+   SCHEDULE - HUD Timeline
+   ========================================== */
+
+.schedule-grid {
+    display: grid;
+    gap: var(--spacing-sm);
+}
+
+.schedule-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.05), transparent);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-left: 3px solid var(--iron-gold);
+    transition: all var(--transition-fast);
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+/* Data stream effect on hover */
+.schedule-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--arc-reactor-blue);
+    transition: height var(--transition-normal);
+    box-shadow: 0 0 10px var(--arc-reactor-blue);
+}
+
+.schedule-item:hover::before {
+    height: 100%;
+}
+
+.schedule-item:hover {
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.1), rgba(255, 215, 0, 0.02));
+    border-color: var(--arc-reactor-blue);
+    transform: translateX(10px);
+    box-shadow: -10px 0 30px rgba(0, 229, 255, 0.1);
+}
+
+.schedule-item.fixed {
+    border-left-color: var(--arc-reactor-blue);
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.08), transparent);
+}
+
+.schedule-item.fixed::after {
+    content: 'FIXED';
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    color: var(--arc-reactor-blue);
+    font-family: var(--font-mono);
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+}
+
+.schedule-item.completed {
+    opacity: 0.4;
+    border-left-color: #4caf50;
+}
+
+.schedule-item.completed::after {
+    content: '✓ COMPLETE';
+    color: #4caf50;
+}
+
+.schedule-item.completed .schedule-item__task {
+    text-decoration: line-through;
+}
+
+.schedule-item__time {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--iron-gold);
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.schedule-item__time::before {
+    content: '▸';
+    color: var(--arc-reactor-blue);
+    animation: timePulse 1s ease-in-out infinite;
+}
+
+@keyframes timePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.schedule-item__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.schedule-item__task {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.schedule-item__duration {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================
+   GOALS - Holographic Cards
+   ========================================== */
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.goal-card {
+    background: linear-gradient(135deg, rgba(10, 10, 16, 0.95), rgba(5, 5, 8, 0.98));
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-xl);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+
+/* Holographic overlay effect */
+.goal-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg,
+            transparent,
+            rgba(0, 229, 255, 0.03),
+            transparent,
+            rgba(255, 215, 0, 0.03),
+            transparent);
+    animation: holoRotate 10s linear infinite;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.goal-card:hover::before {
+    opacity: 1;
+}
+
+@keyframes holoRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Corner brackets */
+.goal-card::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid transparent;
+    transition: all var(--transition-normal);
+    pointer-events: none;
+}
+
+.goal-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--arc-reactor-blue);
+    box-shadow:
+        0 20px 60px rgba(0, 229, 255, 0.2),
+        0 0 40px rgba(0, 229, 255, 0.1),
+        inset 0 0 60px rgba(0, 229, 255, 0.03);
+}
+
+.goal-card:hover::after {
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.goal-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 1;
+}
+
+.goal-card__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.goal-card__priority {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: var(--font-mono);
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+
+.goal-card__priority.high {
+    background: linear-gradient(135deg, rgba(255, 23, 68, 0.3), rgba(255, 23, 68, 0.1));
+    color: var(--iron-red-light);
+    border: 1px solid var(--iron-red);
+}
+
+.goal-card__priority.medium {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.08));
+    color: var(--iron-gold);
+    border: 1px solid var(--iron-gold-dark);
+}
+
+.goal-card__priority.low {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(0, 229, 255, 0.08));
+    color: var(--arc-reactor-blue);
+    border: 1px solid var(--arc-reactor-blue);
+}
+
+.goal-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    position: relative;
+    z-index: 1;
+}
+
+.goal-card__meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.goal-card__progress {
+    margin-top: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+}
+
+/* Progress bar - Power Level Indicator */
+.progress-bar {
+    height: 12px;
+    background: rgba(10, 10, 16, 0.8);
+    border-radius: 0;
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+}
+
+/* Segmented background */
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(90deg,
+            transparent,
+            transparent 8px,
+            rgba(0, 229, 255, 0.1) 8px,
+            rgba(0, 229, 255, 0.1) 10px);
+}
+
+.progress-bar__fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--iron-red), var(--iron-gold), var(--arc-reactor-blue));
+    transition: width var(--transition-slow);
+    position: relative;
+    box-shadow:
+        0 0 20px rgba(0, 229, 255, 0.5),
+        0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+/* Pulsing glow effect */
+.progress-bar__fill::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -2px;
+    bottom: -2px;
+    width: 4px;
+    background: var(--arc-reactor-blue);
+    box-shadow: 0 0 15px var(--arc-reactor-blue), 0 0 30px var(--arc-reactor-blue);
+    animation: powerPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes powerPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 15px var(--arc-reactor-blue), 0 0 30px var(--arc-reactor-blue);
+    }
+
+    50% {
+        opacity: 0.5;
+        box-shadow: 0 0 5px var(--arc-reactor-blue);
+    }
+}
+
+/* Energy flow animation */
+.progress-bar__fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: energyFlow 1.5s ease-in-out infinite;
+}
+
+@keyframes energyFlow {
+    0% {
+        left: -50%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+}
+
+.progress-stats__percentage {
+    color: var(--arc-reactor-blue);
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.progress-stats__streak {
+    color: var(--iron-red-light);
+}
+
+/* ==========================================
+   SETTINGS - Control Panel
+   ========================================== */
+
+.settings-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.settings-section__title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    color: var(--arc-reactor-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.settings-section__title::before {
+    content: '◇';
+    color: var(--iron-red);
+    animation: settingsPulse 2s ease-in-out infinite;
+}
+
+@keyframes settingsPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+.settings-section__title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-color), transparent);
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(10, 10, 16, 0.9), rgba(5, 5, 8, 0.95));
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+.settings-item:hover {
+    border-color: var(--arc-reactor-blue);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.settings-item__label {
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+}
+
+.settings-item__value {
+    font-weight: 700;
+    color: var(--iron-gold);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.fixed-block {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(10, 10, 16, 0.9), rgba(0, 229, 255, 0.03));
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--arc-reactor-blue);
+    margin-bottom: var(--spacing-sm);
+    transition: all var(--transition-fast);
+}
+
+.fixed-block:hover {
+    border-color: var(--arc-reactor-blue);
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.fixed-block__name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.fixed-block__details {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+/* ==========================================
+   STATS CARDS - Arc Reactor Displays
+   ========================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.stat-card {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background: radial-gradient(ellipse at center, rgba(0, 229, 255, 0.08) 0%, rgba(10, 10, 16, 0.95) 70%);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
+}
+
+/* Arc reactor core effect */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(0, 229, 255, 0.2);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all var(--transition-normal);
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+    border-color: var(--arc-reactor-blue);
+    transform: scale(1.05);
+    box-shadow:
+        0 0 40px rgba(0, 229, 255, 0.25),
+        inset 0 0 40px rgba(0, 229, 255, 0.05);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+    width: 140px;
+    height: 140px;
+    animation: reactorRing 2s ease-in-out infinite;
+}
+
+.stat-card:hover::after {
+    opacity: 1;
+    animation: reactorCore 1s ease-in-out infinite;
+}
+
+@keyframes reactorRing {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes reactorCore {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+}
+
+.stat-card__value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(180deg, var(--arc-reactor-blue), var(--arc-reactor-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-xs);
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
+    font-family: var(--font-mono);
+}
+
+.stat-card__label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-mono);
+}
+
+/* ==========================================
+   EMPTY STATE
+   ========================================== */
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.empty-state__icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+/* ==========================================
+   ARC REACTOR PROGRESS RINGS
+   ========================================== */
+
+.arc-progress {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arc-progress svg {
+    transform: rotate(-90deg);
+}
+
+.arc-progress__bg {
+    fill: none;
+    stroke: rgba(0, 229, 255, 0.1);
+    stroke-width: 4;
+}
+
+.arc-progress__fill {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+.arc-progress__core {
+    filter: blur(1px);
+    animation: corePulse 2s infinite alternate;
+}
+
+.arc-progress__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+}
+
+/* Update Goal Card Layout for new progress */
+.goal-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.goal-card__meta-row {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+}
+
+.goal-card__details {
+    margin-top: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    border-top: 1px solid rgba(0, 229, 255, 0.1);
+    padding-top: var(--spacing-sm);
+}
+
+/* ==========================================
+   LOADING SPINNER - Arc Reactor Style
+   ========================================== */
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-2xl);
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.loading__spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid transparent;
+    border-top-color: var(--arc-reactor-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+}
+
+.loading__spinner::before,
+.loading__spinner::after {
+    content: '';
+    position: absolute;
+    border: 3px solid transparent;
+    border-radius: 50%;
+}
+
+.loading__spinner::before {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-top-color: var(--iron-gold);
+    animation: spin 2s linear infinite reverse;
+}
+
+.loading__spinner::after {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    border-top-color: #ff1744;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes corePulse {
+    from {
+        opacity: 0.6;
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.1);
+        transform-origin: center;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+    .header__title {
+        font-size: 2.5rem;
+        letter-spacing: 0.15em;
+    }
+
+    .header::before {
+        width: 280px;
+        height: 100px;
+    }
+
+    .nav-tabs {
+        max-width: 100%;
+        flex-direction: column;
+    }
+
+    .nav-tabs::before,
+    .nav-tabs::after {
+        display: none;
+    }
+
+    .nav-tabs__btn {
+        clip-path: none;
+    }
+
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-item {
+        grid-template-columns: 100px 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-card__value {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: var(--spacing-md);
+    }
+
+    .header {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .header__title {
+        font-size: 1.8rem;
+    }
+
+    .header::before {
+        display: none;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        clip-path: none;
+        padding: var(--spacing-md);
+    }
+}
+
+/* ==========================================
+   SCROLLBAR - Futuristic Style
+   ========================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--iron-red), var(--iron-gold), var(--arc-reactor-blue));
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--arc-reactor-blue);
+    box-shadow: 0 0 15px var(--arc-reactor-blue);
+}
+
+/* ==========================================
+   SELECTION
+   ========================================== */
+
+::selection {
+    background: rgba(0, 229, 255, 0.3);
+    color: var(--text-primary);
+}

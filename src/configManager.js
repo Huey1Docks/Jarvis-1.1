@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require("path");
 
-const CONFIG_FILE = path.join(__dirname, './config.json');
+const CONFIG_FILE = path.join(__dirname, '../data/config.json');
 
 
 const DEFAULT_CONFIG = {
@@ -33,6 +33,7 @@ function loadConfig(){
     return {...DEFAULT_CONFIG};
 }
 
+//
 function saveConfig(config){
     try{
         fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2), 'utf8');
@@ -151,6 +152,29 @@ function listFixedBlocks() {
     const config = loadConfig();
     return config.fixedBlocks;
 }
+
+
+// ============================================
+// CONFIG DAILY MOOD
+// ============================================
+
+function addDailyMood(today, moodScore){
+    const config = loadConfig();
+
+    config.dailyScore[today].push(moodScore);
+
+    saveConfig(config);
+
+    return; //TODO: return the avarage mood for this day 
+}
+
+//TODO: add to jarvis the command and CLI call to addDailyMood with input 
+//TODO: create a helper function to return avarage mood per day;
+//TODO: graph for how mood trending 
+//TODO: research on how to represent with data entered in other ways also
+//Idea: fixedBlocks hideen behind walls for rewards: ex] finished 6 hours of work minimial 
+    //will need to start tracking time for tasks
+    //can use complete tasks to track fire wall and time
 
 module.exports = {
     loadConfig,

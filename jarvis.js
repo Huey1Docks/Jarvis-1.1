@@ -5,14 +5,14 @@ const {
     generateTodaysSchedule,
     completeTask,
     deleteGoal
-} = require('./goalsManager');
+} = require('./src/goalsManager');
 const {
     loadConfig,
     addFixedBlock,
     removeFixedBlock,
     saveConfig,
     cleanupExpiredBlocks
-} = require('./configManager');
+} = require('./src/configManager');
 const {
     displaySchedule,
     displayGoals,
@@ -21,7 +21,7 @@ const {
     displayInteractiveHeader,
     displayInteractiveHelp,
     displayCLIHelp
-} = require('./display');
+} = require('./src/display');
 
 
 // ============================================
@@ -84,18 +84,18 @@ function promptWeeklyGoal(rl, description, frequency) {
     rl.question("Which day (Monday/Tuesday/...)? ", (weekDay) => {
         rl.question("Target date (YYYY-MM-DD)? ", (targetDate) => {
             const todaysDate = new Date().toISOString().split('T')[0];
-            if(targetDate < todaysDate) {
+            if (targetDate < todaysDate) {
                 console.log(`\nTarget date is in the past!\n`);
                 rl.close();
                 return;
-            } 
+            }
 
             rl.question("Priority (high/medium/low)? ", (priority) => {
                 rl.question("Daily minutes? ", (minutes) => {
-                const goal = createGoalObject(description, frequency, priority, targetDate, weekDay, parseInt(minutes));
-                addGoal(goal);
-                console.log("\n✓ Goal added successfully!\n");
-                rl.close();
+                    const goal = createGoalObject(description, frequency, priority, targetDate, weekDay, parseInt(minutes));
+                    addGoal(goal);
+                    console.log("\n✓ Goal added successfully!\n");
+                    rl.close();
                 });
             });
         });
@@ -107,11 +107,11 @@ function promptDailyOrOneTimeGoal(rl, description, frequency) {
     rl.question('Daily minutes? ', (minutes) => {
         rl.question("Target date (YYYY-MM-DD)? ", (targetDate) => {
             const todaysDate = new Date().toISOString().split('T')[0];
-            if(targetDate < todaysDate) {
+            if (targetDate < todaysDate) {
                 console.log(`\nTarget date is in the past!\n `);
                 rl.close();
                 return;
-            } 
+            }
 
             rl.question("Priority (high/medium/low)? ", (priority) => {
                 const goal = createGoalObject(description, frequency, priority, targetDate, null, parseInt(minutes));
@@ -263,7 +263,7 @@ function handleAddBlockConfig(name) {
 
     if (addFixedBlock(name, startTime, endTime, recurrence, weekDayOrDate)) {
         let confirmMsg = `\n✓ Fixed block added: ${name} (${startTime} - ${endTime})`;
-        
+
         if (recurrence === "weekly") {
             confirmMsg += ` - Every ${weekDayOrDate}`;
         } else if (recurrence === "one-time") {
@@ -271,7 +271,7 @@ function handleAddBlockConfig(name) {
         } else {
             confirmMsg += " - Daily";
         }
-        
+
         console.log(confirmMsg + "\n");
     }
 }
@@ -294,7 +294,7 @@ function handleAddBlockConfig(name) {
 
     if (addFixedBlock(name, startTime, endTime, recurrence, weekDayOrDate)) {
         let confirmMsg = `\n✓ Fixed block added: ${name} (${startTime} - ${endTime})`;
-        
+
         if (recurrence === "weekly") {
             confirmMsg += ` - Every ${weekDayOrDate}`;
         } else if (recurrence === "one-time") {
@@ -302,7 +302,7 @@ function handleAddBlockConfig(name) {
         } else {
             confirmMsg += " - Daily";
         }
-        
+
         console.log(confirmMsg + "\n");
     }
 }
@@ -355,7 +355,7 @@ function startInteractiveMode() {
             return;
         }
 
-         // Clear screen for other commands
+        // Clear screen for other commands
         console.clear();
         displayInteractiveHeader();
 

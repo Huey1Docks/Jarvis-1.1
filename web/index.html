@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jarvis - Your Personal Goal Tracking and Scheduling Dashboard">
+    <title>Jarvis Dashboard - Goal Tracker</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Arc Reactor Branding -->
+        <div class="arc-branding fade-in">
+            <div class="arc-reactor">
+                <!-- Housing shell -->
+                <div class="arc-reactor__housing"></div>
+
+                <!-- Power conduits (radial energy distribution) -->
+                <div class="arc-reactor__conduits">
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                    <div class="arc-reactor__conduit"></div>
+                </div>
+
+                <!-- Outer shielding ring -->
+                <div class="arc-reactor__shield"></div>
+
+                <!-- Concentric regulation rings -->
+                <div class="arc-reactor__ring arc-reactor__ring--outer"></div>
+                <div class="arc-reactor__ring arc-reactor__ring--middle"></div>
+                <div class="arc-reactor__ring arc-reactor__ring--inner"></div>
+
+                <!-- Cooling channels (light emission) -->
+                <div class="arc-reactor__cooling"></div>
+
+                <!-- Central energy core with containment -->
+                <div class="arc-reactor__containment"></div>
+                <div class="arc-reactor__core"></div>
+                <div class="arc-reactor__core-glow"></div>
+            </div>
+            <span class="arc-branding__name">huey1docks</span>
+            <div class="arc-branding__dots">
+                <span class="brand-dot"></span>
+                <span class="brand-dot"></span>
+                <span class="brand-dot"></span>
+            </div>
+        </div>
+
+        <!-- Top Right Date -->
+        <div class="top-date" id="current-date"></div>
+
+        <!-- Header - Chronometer Watch Display -->
+        <header class="header fade-in">
+            <div class="chronometer">
+                <!-- Outer Ring: Years -->
+                <div class="chronometer__ring chronometer__ring--years" id="ring-years"></div>
+
+                <!-- Middle Ring: Months -->
+                <div class="chronometer__ring chronometer__ring--months" id="ring-months"></div>
+
+                <!-- Inner Ring: Days -->
+                <div class="chronometer__ring chronometer__ring--days" id="ring-days"></div>
+
+                <!-- Centerpiece -->
+                <div class="chronometer__center">
+                    <h1 class="header__title--small" id="main-title">JARVIS</h1>
+                    <p class="header__subtitle--small">GOAL TRACKING</p>
+                </div>
+
+                <!-- Indicator for 12 o'clock position -->
+                <div class="chronometer__indicator"></div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tabs__btn active" data-tab="schedule">📅 Schedule</button>
+            <button class="nav-tabs__btn" data-tab="goals">🎯 Goals</button>
+            <button class="nav-tabs__btn" data-tab="settings">⚙️ Settings</button>
+        </nav>
+
+        <!-- Tab: Schedule -->
+        <section id="schedule" class="tab-content active">
+            <!-- Stats Overview -->
+            <div class="stats-grid" id="schedule-stats">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Schedule Timeline -->
+            <div class="card">
+                <div class="card__header">
+                    <h2 class="card__title">Today's Schedule</h2>
+                    <span class="card__subtitle" id="schedule-summary"></span>
+                </div>
+                <div class="schedule-grid" id="schedule-list">
+                    <div class="loading">
+                        <div class="loading__spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Goals -->
+        <section id="goals" class="tab-content">
+            <!-- Goal Stats -->
+            <div class="stats-grid" id="goals-stats">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Goals Grid -->
+            <div class="goals-grid" id="goals-list">
+                <div class="loading">
+                    <div class="loading__spinner"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Settings -->
+        <section id="settings" class="tab-content">
+            <!-- General Settings -->
+            <div class="settings-section">
+                <h2 class="settings-section__title">General Configuration</h2>
+                <div class="settings-grid" id="config-general">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Fixed Blocks -->
+            <div class="settings-section">
+                <h2 class="settings-section__title">Fixed Time Blocks</h2>
+                <div id="fixed-blocks-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+
+</html>

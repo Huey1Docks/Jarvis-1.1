@@ -1,0 +1,14 @@
+{
+  "startTime": "14:00",
+  "availableHours": 11,
+  "fixedBlocks": [
+    {
+      "name": "Plymouth: House",
+      "startTime": "19:00",
+      "endTime": "20:00",
+      "recurrence": "weekly",
+      "weekDay": "Thursday",
+      "date": null
+    }
+  ]
+}

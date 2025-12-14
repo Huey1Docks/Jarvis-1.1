@@ -1,0 +1,189 @@
+[
+  {
+    "id": 1764913137995,
+    "description": "App Academy",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "high",
+    "metric": {
+      "dailyMinutes": 240,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913229565,
+    "description": "Jump Rope",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 10,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913266028,
+    "description": "Workout",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 50,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913315694,
+    "description": "Work on Jarvis",
+    "frequency": "weekly",
+    "createdDate": "2025-12-06",
+    "weekDay": "Saturday",
+    "targetDate": "2026-02-03",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 120,
+      "completed": 0,
+      "expectedCompletions": 0,
+      "progressPercentage": 0,
+      "streak": 0,
+      "lastCompleted": null
+    }
+  },
+  {
+    "id": 1764913388634,
+    "description": "Stretch",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 60,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913590906,
+    "description": "Leetcode",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 60,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913891321,
+    "description": "Computer Organization and Design",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 30,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913929388,
+    "description": "Anki ",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "medium",
+    "metric": {
+      "dailyMinutes": 30,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913967170,
+    "description": "Bible",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "high",
+    "metric": {
+      "dailyMinutes": 30,
+      "completed": 8,
+      "expectedCompletions": 8,
+      "progressPercentage": 100,
+      "streak": 8,
+      "lastCompleted": "2025-12-12"
+    }
+  },
+  {
+    "id": 1764913989667,
+    "description": "NovN",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 1,
+      "completed": 6,
+      "expectedCompletions": 6,
+      "progressPercentage": 100,
+      "streak": 1,
+      "lastCompleted": "2025-12-11"
+    }
+  },
+  {
+    "id": 1764914278027,
+    "description": "1500 Cal",
+    "frequency": "daily",
+    "createdDate": "2025-12-05",
+    "weekDay": null,
+    "targetDate": "2026-02-03",
+    "priority": "low",
+    "metric": {
+      "dailyMinutes": 1,
+      "completed": 7,
+      "expectedCompletions": 7,
+      "progressPercentage": 100,
+      "streak": 7,
+      "lastCompleted": "2025-12-11"
+    }
+  }
+]
