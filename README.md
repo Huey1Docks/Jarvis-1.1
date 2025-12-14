@@ -23,14 +23,6 @@ This project is a web-based dashboard with an integrated terminal-style interfac
 
 2. **Run the Dashboard**
    - Simply open `web/index.html` in any modern web browser.
-   - *Optional*: For a better development experience (to avoid CORS issues with JSON fetching), run a simple local server:
-     ```bash
-     # Python 3
-     python -m http.server 8000
-     
-     # Node.js (http-server)
-     npx http-server .
-     ```
 
 ## Terminal Help
    -For command list
