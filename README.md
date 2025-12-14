@@ -4,7 +4,7 @@ A personal dashboard designed to track daily goals, routines, and schedules. Bui
 
 ## Overview
 
-This project is a web-based dashboard bundled with a terminal interface that helps you stay organized. It runs completely client-side (or utilizing a simple local structure) and dynamically renders your schedule based on JSON configuration files.
+This project is a web-based dashboard with an integrated terminal-style interface designed to help you stay organized. It operates entirely on the client side using a simple local structure and dynamically generates your schedule from JSON configuration files.
 
 ## Features
 
