@@ -13,7 +13,7 @@ This project is a web-based dashboard with an integrated terminal-style interfac
 - **Dynamic Schedule**: Automatically generates a daily timeline based on your goals defined in `data/goals.json`.
 - **Configurable**: Easy-to-edit JSON files for managing goals and application settings.
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 1. **Clone the Repository**
    ```bash
@@ -23,18 +23,12 @@ This project is a web-based dashboard with an integrated terminal-style interfac
 
 2. **Run the Dashboard**
    - Simply open `web/index.html` in any modern web browser.
-   - *Optional*: For a better development experience (to avoid CORS issues with JSON fetching), run a simple local server:
-     ```bash
-     # Python 3
-     python -m http.server 8000
-     
-     # Node.js (http-server)
-     npx http-server .
-     ```
 
 ## Terminal Help
-
-node jarvis.js help                                    # Command list
+   -For command list
+   
+     node jarvis.js help 
+     ```
 
 ## Project Structure
 
