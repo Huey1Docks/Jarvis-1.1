@@ -13,7 +13,7 @@ This project is a web-based dashboard with an integrated terminal-style interfac
 - **Dynamic Schedule**: Automatically generates a daily timeline based on your goals defined in `data/goals.json`.
 - **Configurable**: Easy-to-edit JSON files for managing goals and application settings.
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 1. **Clone the Repository**
    ```bash
