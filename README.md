@@ -33,7 +33,7 @@ This project is a web-based dashboard with an integrated terminal-style interfac
      ```
 
 ## Terminal Help
-# run
+#run
 node jarvis.js help                                    # Command list
 
 ## Project Structure
