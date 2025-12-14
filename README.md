@@ -33,10 +33,11 @@ This project is a web-based dashboard with an integrated terminal-style interfac
      ```
 
 ## Terminal Help
-```bash
-     # For command list
+   -For command list
+   
      node jarvis.js help 
      ```
+
 ## Project Structure
 
 ```text
