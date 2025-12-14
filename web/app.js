@@ -283,6 +283,14 @@ function initTabs() {
                 content.classList.remove('active');
                 if (content.id === targetTab) {
                     content.classList.add('active');
+                    // Scroll to the content with a slight delay to ensure layout update
+                    setTimeout(() => {
+                        content.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    }, 50);
                 }
             });
         });
