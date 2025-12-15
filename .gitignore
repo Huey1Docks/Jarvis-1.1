@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Mac OS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Data (Optional: uncomment if you don't want to push your personal goals/config)
+# data/

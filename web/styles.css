@@ -1444,6 +1444,18 @@ canvas {
     transition: all var(--transition-fast);
     position: relative;
     clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    cursor: pointer;
+}
+
+.schedule-item.completed {
+    opacity: 0.5;
+    border-left-color: var(--arc-reactor-blue);
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.02), transparent);
+}
+
+.schedule-item.completed .schedule-item__task {
+    text-decoration: line-through;
+    color: var(--text-muted);
 }
 
 /* Data stream effect on hover */
@@ -1473,6 +1485,7 @@ canvas {
 .schedule-item.fixed {
     border-left-color: var(--arc-reactor-blue);
     background: linear-gradient(90deg, rgba(0, 229, 255, 0.08), transparent);
+    cursor: default;
 }
 
 .schedule-item.fixed::after {

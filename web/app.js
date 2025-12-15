@@ -7,9 +7,12 @@
 // DATA PATHS
 // ==========================================
 
+const API_BASE = '/api';
+
 const DATA_PATHS = {
-    goals: '../data/goals.json',
-    config: '../data/config.json'
+    goals: `${API_BASE}/goals`,
+    config: `${API_BASE}/config`,
+    schedule: `${API_BASE}/schedule`
 };
 
 // ==========================================
@@ -340,7 +343,9 @@ function renderSchedule(scheduleData) {
     }
 
     scheduleList.innerHTML = scheduleData.tasks.map(task => `
-        <div class="schedule-item ${task.isFixed ? 'fixed' : ''} ${task.isCompleted ? 'completed' : ''}">
+        <div class="schedule-item ${task.isFixed ? 'fixed' : ''} ${task.isCompleted ? 'completed' : ''}" 
+             data-goal-id="${task.goalId || ''}"
+             title="${task.isFixed ? 'Fixed Block' : 'Click to Complete'}">
             <div class="schedule-item__time">
                 ${formatTime(task.startTime)}
             </div>
@@ -641,25 +646,94 @@ async function init() {
     initChronometer(); // New Chronometer
 
     // Load data
-    const [goals, config] = await Promise.all([
-        fetchJSON(DATA_PATHS.goals),
-        fetchJSON(DATA_PATHS.config)
-    ]);
+    try {
+        const [goals, config, scheduleData] = await Promise.all([
+            fetchJSON(DATA_PATHS.goals),
+            fetchJSON(DATA_PATHS.config),
+            fetchJSON(DATA_PATHS.schedule)
+        ]);
 
-    if (!goals || !config) {
-        console.error('Failed to load data');
-        return;
+        if (!goals || !config || !scheduleData) {
+            console.error('Failed to load data', { goals, config, scheduleData });
+            return;
+        }
+
+        // Render all tabs
+        renderSchedule(scheduleData);
+        renderGoals(goals);
+        renderSettings(config);
+
+        // Add interaction listeners
+        setupInteractions();
+
+    } catch (error) {
+        console.error("Initialization error:", error);
     }
 
-    // Generate schedule
-    const scheduleData = generateSchedule(goals, config);
+    console.log('Jarvis Dashboard initialized successfully!');
+}
 
-    // Render all tabs
+/**
+ * Sets up event listeners for interactions
+ */
+function setupInteractions() {
+    // Schedule Item Clicks (Task Completion)
+    const scheduleList = document.getElementById('schedule-list');
+
+    scheduleList.addEventListener('click', async (e) => {
+        // Find closest schedule item
+        const item = e.target.closest('.schedule-item');
+        if (!item) return;
+
+        // Ignore fixed blocks or already completed items
+        if (item.classList.contains('fixed')) return;
+
+        // Get Goal ID from dataset (we need to add this to rendering)
+        const goalId = item.dataset.goalId;
+        if (!goalId) return;
+
+        // Optimistic UI update
+        item.classList.toggle('completed'); // Visual feedback immediately
+
+        try {
+            const response = await fetch(`${API_BASE}/goals/${goalId}/complete`, {
+                method: 'POST'
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // success
+                // Reload data to update stats and other views
+                reloadData();
+            } else {
+                // Revert on failure
+                item.classList.toggle('completed');
+                console.error('Failed to complete task:', result.message);
+                alert('Failed to complete task');
+            }
+        } catch (error) {
+            item.classList.toggle('completed');
+            console.error('Error completing task:', error);
+        }
+    });
+
+    // Goals List Clicks (To be implemented)
+}
+
+/**
+ * Reloads data and refreshes UI
+ */
+async function reloadData() {
+    const [goals, config, scheduleData] = await Promise.all([
+        fetchJSON(DATA_PATHS.goals),
+        fetchJSON(DATA_PATHS.config),
+        fetchJSON(DATA_PATHS.schedule)
+    ]);
+
     renderSchedule(scheduleData);
     renderGoals(goals);
     renderSettings(config);
-
-    console.log('Jarvis Dashboard initialized successfully!');
 }
 
 // Start the app

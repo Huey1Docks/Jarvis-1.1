@@ -9,11 +9,11 @@
     "priority": "high",
     "metric": {
       "dailyMinutes": 240,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 10,
+      "expectedCompletions": 10,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 10,
+      "lastCompleted": "2025-12-14"
     }
   },
   {
@@ -26,11 +26,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 10,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -43,11 +43,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 50,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -77,11 +77,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -94,11 +94,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 60,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -111,11 +111,11 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 30,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -128,11 +128,11 @@
     "priority": "medium",
     "metric": {
       "dailyMinutes": 30,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -145,11 +145,11 @@
     "priority": "high",
     "metric": {
       "dailyMinutes": 30,
-      "completed": 8,
-      "expectedCompletions": 8,
+      "completed": 9,
+      "expectedCompletions": 9,
       "progressPercentage": 100,
-      "streak": 8,
-      "lastCompleted": "2025-12-12"
+      "streak": 9,
+      "lastCompleted": "2025-12-13"
     }
   },
   {
@@ -162,11 +162,11 @@
     "priority": "low",
     "metric": {
       "dailyMinutes": 1,
-      "completed": 6,
-      "expectedCompletions": 6,
-      "progressPercentage": 100,
+      "completed": 7,
+      "expectedCompletions": 10,
+      "progressPercentage": 70,
       "streak": 1,
-      "lastCompleted": "2025-12-11"
+      "lastCompleted": "2025-12-14"
     }
   },
   {
