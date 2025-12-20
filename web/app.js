@@ -408,10 +408,15 @@ function renderSchedule(scheduleData) {
     const scheduleStats = document.getElementById('schedule-stats');
     const scheduleSummary = document.getElementById('schedule-summary');
 
+    // Calculate stats locally
+    const tasks = scheduleData.tasks || [];
+    const taskCount = tasks.filter(t => !t.isFixed).length;
+    const fixedCount = tasks.filter(t => t.isFixed).length;
+
     // Stats
     scheduleStats.innerHTML = `
         <div class="stat-card">
-            <div class="stat-card__value">${scheduleData.taskCount}</div>
+            <div class="stat-card__value">${taskCount}</div>
             <div class="stat-card__label">Tasks Today</div>
         </div>
         <div class="stat-card">
@@ -419,16 +424,16 @@ function renderSchedule(scheduleData) {
             <div class="stat-card__label">Total Duration</div>
         </div>
         <div class="stat-card">
-            <div class="stat-card__value">${scheduleData.fixedCount}</div>
+            <div class="stat-card__value">${fixedCount}</div>
             <div class="stat-card__label">Fixed Blocks</div>
         </div>
     `;
 
     // Summary
-    scheduleSummary.textContent = `${scheduleData.tasks.length} items scheduled`;
+    scheduleSummary.textContent = `${tasks.length} items scheduled`;
 
     // Schedule items
-    if (scheduleData.tasks.length === 0) {
+    if (tasks.length === 0) {
         scheduleList.innerHTML = `
             <div class="empty-state">
                 <div class="empty-state__icon">📭</div>
@@ -438,7 +443,7 @@ function renderSchedule(scheduleData) {
         return;
     }
 
-    scheduleList.innerHTML = scheduleData.tasks.map(renderScheduleItem).join('');
+    scheduleList.innerHTML = tasks.map(renderScheduleItem).join('');
 }
 
 /**
