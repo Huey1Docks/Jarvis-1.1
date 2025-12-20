@@ -121,6 +121,20 @@ function shouldGenerateTaskToday(goal) {
 }
 
 /**
+ * Gets tasks for today, sorted by priority
+ */
+function getTodaysTasks(goals) {
+    return goals
+        .filter(shouldGenerateTaskToday)
+        .sort((a, b) => {
+            const priorityOrder = { high: 0, medium: 1, low: 2 };
+            const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
+            if (priorityDiff !== 0) return priorityDiff;
+            return b.metric.dailyMinutes - a.metric.dailyMinutes;
+        });
+}
+
+/**
  * Prepares fixed blocks for today from config
  */
 function prepareFixedBlocks(config) {
@@ -152,14 +166,7 @@ function generateSchedule(goals, config) {
     const fixedBlocks = prepareFixedBlocks(config);
 
     // Get tasks for today
-    const todaysTasks = goals
-        .filter(shouldGenerateTaskToday)
-        .sort((a, b) => {
-            const priorityOrder = { high: 0, medium: 1, low: 2 };
-            const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
-            if (priorityDiff !== 0) return priorityDiff;
-            return b.metric.dailyMinutes - a.metric.dailyMinutes;
-        });
+    const todaysTasks = getTodaysTasks(goals);
 
     let currentTime = timeToMinutes(config.startTime);
     const endTime = currentTime + (config.availableHours * 60);
@@ -307,6 +314,93 @@ function initTabs() {
 // ==========================================
 
 /**
+ * Renders a single schedule item
+ */
+function renderScheduleItem(task) {
+    return `
+        <div class="schedule-item ${task.isFixed ? 'fixed' : ''} ${task.isCompleted ? 'completed' : ''}" 
+             data-goal-id="${task.goalId || ''}"
+             title="${task.isFixed ? 'Fixed Block' : 'Click to Complete'}">
+            <div class="schedule-item__time">
+                ${formatTime(task.startTime)}
+            </div>
+            <div class="schedule-item__content">
+                <div class="schedule-item__task">${task.description}</div>
+                <div class="schedule-item__duration">
+                    ${formatDuration(task.duration)}
+                    ${task.isFixed ? ' • Fixed Block' : ''}
+                    ${task.priority ? ` • ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)} Priority` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Renders a single goal card
+ */
+function renderGoalCard(goal) {
+    const radius = 24;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (goal.metric.progressPercentage / 100) * circumference;
+    const isComplete = goal.metric.progressPercentage >= 100;
+
+    return `
+        <div class="goal-card ${isComplete ? 'completed' : ''}">
+            <div class="goal-card__header">
+                <div>
+                    <h3 class="goal-card__title">${goal.description}</h3>
+                    <div class="goal-card__meta-row">
+                        <span class="goal-card__priority ${goal.priority}">${goal.priority}</span>
+                        ${goal.weekDay ? `<span class="goal-card__meta-item">📆 ${goal.weekDay}</span>` : ''}
+                    </div>
+                </div>
+                
+                <!-- Circular Arc Progress -->
+                <div class="arc-progress">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                        <circle class="arc-progress__bg" cx="30" cy="30" r="${radius}"></circle>
+                        <circle class="arc-progress__fill" cx="30" cy="30" r="${radius}" 
+                                style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${offset}; stroke: ${isComplete ? '#00e5ff' : '#ffd700'}">
+                        </circle>
+                        <!-- Center Glow -->
+                        <circle class="arc-progress__core" cx="30" cy="30" r="4" fill="${isComplete ? '#00e5ff' : '#ffd700'}"></circle>
+                    </svg>
+                    <div class="arc-progress__text">${goal.metric.progressPercentage}%</div>
+                </div>
+            </div>
+            
+            <div class="goal-card__details">
+                <span class="goal-card__meta-item">
+                    📅 ${goal.frequency}
+                </span>
+                <span class="goal-card__meta-item">
+                    ⏱️ ${formatDuration(goal.metric.dailyMinutes)}
+                </span>
+                <span class="progress-stats__streak">🔥 ${goal.metric.streak} day streak</span>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Renders a single fixed block configuration item
+ */
+function renderFixedBlock(block) {
+    return `
+        <div class="fixed-block">
+            <div class="fixed-block__name">${block.name}</div>
+            <div class="fixed-block__details">
+                ${formatTime(timeToMinutes(block.startTime))} - ${formatTime(timeToMinutes(block.endTime))}
+                • ${block.recurrence.charAt(0).toUpperCase() + block.recurrence.slice(1)}
+                ${block.weekDay ? ` (${block.weekDay})` : ''}
+                ${block.date ? ` (${block.date})` : ''}
+            </div>
+        </div>
+    `;
+}
+
+/**
  * Renders the schedule tab
  */
 function renderSchedule(scheduleData) {
@@ -344,23 +438,7 @@ function renderSchedule(scheduleData) {
         return;
     }
 
-    scheduleList.innerHTML = scheduleData.tasks.map(task => `
-        <div class="schedule-item ${task.isFixed ? 'fixed' : ''} ${task.isCompleted ? 'completed' : ''}" 
-             data-goal-id="${task.goalId || ''}"
-             title="${task.isFixed ? 'Fixed Block' : 'Click to Complete'}">
-            <div class="schedule-item__time">
-                ${formatTime(task.startTime)}
-            </div>
-            <div class="schedule-item__content">
-                <div class="schedule-item__task">${task.description}</div>
-                <div class="schedule-item__duration">
-                    ${formatDuration(task.duration)}
-                    ${task.isFixed ? ' • Fixed Block' : ''}
-                    ${task.priority ? ` • ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)} Priority` : ''}
-                </div>
-            </div>
-        </div>
-    `).join('');
+    scheduleList.innerHTML = scheduleData.tasks.map(renderScheduleItem).join('');
 }
 
 /**
@@ -409,48 +487,7 @@ function renderGoals(goals) {
         return;
     }
 
-    goalsList.innerHTML = goals.map(goal => {
-        const radius = 24;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (goal.metric.progressPercentage / 100) * circumference;
-        const isComplete = goal.metric.progressPercentage >= 100;
-
-        return `
-        <div class="goal-card ${isComplete ? 'completed' : ''}">
-            <div class="goal-card__header">
-                <div>
-                    <h3 class="goal-card__title">${goal.description}</h3>
-                    <div class="goal-card__meta-row">
-                        <span class="goal-card__priority ${goal.priority}">${goal.priority}</span>
-                        ${goal.weekDay ? `<span class="goal-card__meta-item">📆 ${goal.weekDay}</span>` : ''}
-                    </div>
-                </div>
-                
-                <!-- Circular Arc Progress -->
-                <div class="arc-progress">
-                    <svg width="60" height="60" viewBox="0 0 60 60">
-                        <circle class="arc-progress__bg" cx="30" cy="30" r="${radius}"></circle>
-                        <circle class="arc-progress__fill" cx="30" cy="30" r="${radius}" 
-                                style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${offset}; stroke: ${isComplete ? '#00e5ff' : '#ffd700'}">
-                        </circle>
-                        <!-- Center Glow -->
-                        <circle class="arc-progress__core" cx="30" cy="30" r="4" fill="${isComplete ? '#00e5ff' : '#ffd700'}"></circle>
-                    </svg>
-                    <div class="arc-progress__text">${goal.metric.progressPercentage}%</div>
-                </div>
-            </div>
-            
-            <div class="goal-card__details">
-                <span class="goal-card__meta-item">
-                    📅 ${goal.frequency}
-                </span>
-                <span class="goal-card__meta-item">
-                    ⏱️ ${formatDuration(goal.metric.dailyMinutes)}
-                </span>
-                <span class="progress-stats__streak">🔥 ${goal.metric.streak} day streak</span>
-            </div>
-        </div>
-    `}).join('');
+    goalsList.innerHTML = goals.map(renderGoalCard).join('');
 }
 
 /**
@@ -513,17 +550,7 @@ function renderSettings(config) {
         return;
     }
 
-    fixedBlocksList.innerHTML = config.fixedBlocks.map(block => `
-        <div class="fixed-block">
-            <div class="fixed-block__name">${block.name}</div>
-            <div class="fixed-block__details">
-                ${formatTime(timeToMinutes(block.startTime))} - ${formatTime(timeToMinutes(block.endTime))}
-                • ${block.recurrence.charAt(0).toUpperCase() + block.recurrence.slice(1)}
-                ${block.weekDay ? ` (${block.weekDay})` : ''}
-                ${block.date ? ` (${block.date})` : ''}
-            </div>
-        </div>
-        `).join('');
+    fixedBlocksList.innerHTML = config.fixedBlocks.map(renderFixedBlock).join('');
 }
 
 // ==========================================
@@ -879,10 +906,10 @@ function showCompletionModal(goal, onCallback) {
             confirmBtn.innerText = 'PROCESSING...';
             confirmBtn.disabled = true;
 
-            const response = await fetch(`${API_BASE} /goals/${goal.id}/complete`, {
+            const response = await fetch(`${API_BASE}/goals/${goal.id}/complete`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ score: selectedScore })
+                body: JSON.stringify({ score: selectedScore, reason: reason })
             });
 
             const result = await response.json();

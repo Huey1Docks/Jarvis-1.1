@@ -283,7 +283,7 @@ function generateTodaysSchedule(goals) {
 // ============================================
 
 //update tasks as complete and update goal metrics
-function completeTask(goalId, score = 100) {
+function completeTask(goalId, score = 100, reason = null) {
     const goals = loadGoals();
     const goal = goals.find(g => g.id === goalId);
 
@@ -312,7 +312,8 @@ function completeTask(goalId, score = 100) {
         type: 'COMPLETION',
         date: todayString,
         timestamp: Date.now(),
-        score: score
+        score: score,
+        reason: reason
     };
 
     const newHistory = [...(goal.history || []), historyEntry];

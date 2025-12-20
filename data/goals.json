@@ -41,9 +41,18 @@
       "completed": 11,
       "expectedCompletions": 11,
       "progressPercentage": 100,
-      "streak": 11,
-      "lastCompleted": "2025-12-15"
-    }
+      "streak": 0,
+      "lastCompleted": "2025-12-15",
+      "lastSkipped": "2025-12-20"
+    },
+    "history": [
+      {
+        "type": "SKIP",
+        "date": "2025-12-20",
+        "timestamp": 1766228547442,
+        "reason": "Too tired"
+      }
+    ]
   },
   {
     "id": 1764913266028,
@@ -93,12 +102,21 @@
     ],
     "metric": {
       "dailyMinutes": 120,
-      "completed": 1,
-      "expectedCompletions": 1,
+      "completed": 2,
+      "expectedCompletions": 2,
       "progressPercentage": 100,
-      "streak": 1,
-      "lastCompleted": "2025-12-13"
-    }
+      "streak": 1.5,
+      "lastCompleted": "2025-12-20"
+    },
+    "history": [
+      {
+        "type": "COMPLETION",
+        "date": "2025-12-20",
+        "timestamp": 1766228786067,
+        "score": 75,
+        "reason": "2 round testing"
+      }
+    ]
   },
   {
     "id": 1764913388634,
@@ -185,12 +203,21 @@
     ],
     "metric": {
       "dailyMinutes": 30,
-      "completed": 11,
-      "expectedCompletions": 11,
-      "progressPercentage": 100,
-      "streak": 11,
-      "lastCompleted": "2025-12-15"
-    }
+      "completed": 12,
+      "expectedCompletions": 15,
+      "progressPercentage": 80,
+      "streak": 0.5,
+      "lastCompleted": "2025-12-20"
+    },
+    "history": [
+      {
+        "type": "COMPLETION",
+        "date": "2025-12-20",
+        "timestamp": 1766228719521,
+        "score": 75,
+        "reason": "test"
+      }
+    ]
   },
   {
     "id": 1764913967170,

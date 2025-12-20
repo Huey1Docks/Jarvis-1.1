@@ -9,6 +9,14 @@
       "recurrence": "weekly",
       "weekDay": "Thursday",
       "date": null
+    },
+     {
+      "name": "testing",
+      "startTime": "13:00",
+      "endTime": "20:00",
+      "recurrence": "daily",
+      "weekDay": null,
+      "date": null
     }
   ]
 }

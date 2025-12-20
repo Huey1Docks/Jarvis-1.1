@@ -62,7 +62,7 @@ app.post('/api/goals/:id/complete', (req, res) => {
         // Handle floating point IDs for one-time tasks or random ID generation overlap
         // The goalsManager uses strictly strict ID matching, but IDs are effectively numbers.
 
-        const success = completeTask(goalId, req.body.score);
+        const success = completeTask(goalId, req.body.score, req.body.reason);
 
         if (success) {
             res.json({ success: true, message: 'Task completed' });
