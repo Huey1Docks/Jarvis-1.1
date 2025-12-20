@@ -7,13 +7,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "high",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 240,
-      "completed": 10,
-      "expectedCompletions": 10,
+      "completed": 16,
+      "expectedCompletions": 15,
       "progressPercentage": 100,
-      "streak": 10,
-      "lastCompleted": "2025-12-14"
+      "streak": 1.5,
+      "lastCompleted": "2025-12-20"
     }
   },
   {
@@ -24,13 +30,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "medium",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 10,
-      "completed": 9,
-      "expectedCompletions": 9,
+      "completed": 11,
+      "expectedCompletions": 11,
       "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
+      "streak": 11,
+      "lastCompleted": "2025-12-15"
     }
   },
   {
@@ -41,14 +53,29 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "medium",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 50,
-      "completed": 9,
-      "expectedCompletions": 9,
-      "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
-    }
+      "completed": 12,
+      "expectedCompletions": 13,
+      "progressPercentage": 92,
+      "streak": 0,
+      "lastCompleted": "2025-12-17",
+      "lastSkipped": "2025-12-20"
+    },
+    "history": [
+      {
+        "type": "SKIP",
+        "date": "2025-12-20",
+        "timestamp": 1766227464438,
+        "reason": "No time"
+      }
+    ]
   },
   {
     "id": 1764913315694,
@@ -58,6 +85,12 @@
     "weekDay": "Saturday",
     "targetDate": "2026-02-03",
     "priority": "low",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 120,
       "completed": 1,
@@ -75,13 +108,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "medium",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 60,
-      "completed": 9,
-      "expectedCompletions": 9,
-      "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
+      "completed": 12,
+      "expectedCompletions": 15,
+      "progressPercentage": 80,
+      "streak": 1,
+      "lastCompleted": "2025-12-20"
     }
   },
   {
@@ -92,13 +131,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "medium",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 60,
-      "completed": 9,
-      "expectedCompletions": 9,
-      "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
+      "completed": 13,
+      "expectedCompletions": 15,
+      "progressPercentage": 87,
+      "streak": 0.5,
+      "lastCompleted": "2025-12-20"
     }
   },
   {
@@ -109,13 +154,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "low",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 30,
-      "completed": 9,
-      "expectedCompletions": 9,
+      "completed": 11,
+      "expectedCompletions": 11,
       "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
+      "streak": 11,
+      "lastCompleted": "2025-12-15"
     }
   },
   {
@@ -126,13 +177,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "medium",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 30,
-      "completed": 9,
-      "expectedCompletions": 9,
+      "completed": 11,
+      "expectedCompletions": 11,
       "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
+      "streak": 11,
+      "lastCompleted": "2025-12-15"
     }
   },
   {
@@ -143,13 +200,19 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "high",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 30,
-      "completed": 9,
-      "expectedCompletions": 9,
-      "progressPercentage": 100,
-      "streak": 9,
-      "lastCompleted": "2025-12-13"
+      "completed": 12,
+      "expectedCompletions": 15,
+      "progressPercentage": 80,
+      "streak": 1,
+      "lastCompleted": "2025-12-20"
     }
   },
   {
@@ -160,30 +223,42 @@
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "low",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 1,
-      "completed": 7,
-      "expectedCompletions": 10,
-      "progressPercentage": 70,
+      "completed": 9,
+      "expectedCompletions": 13,
+      "progressPercentage": 69,
       "streak": 1,
-      "lastCompleted": "2025-12-14"
+      "lastCompleted": "2025-12-18"
     }
   },
   {
     "id": 1764914278027,
-    "description": "1500 Cal",
+    "description": "1000 Cal",
     "frequency": "daily",
     "createdDate": "2025-12-05",
     "weekDay": null,
     "targetDate": "2026-02-03",
     "priority": "low",
+    "cue": "",
+    "action": "",
+    "reflectionQuestions": [
+      "How did it go?",
+      "What could be improved?"
+    ],
     "metric": {
       "dailyMinutes": 1,
-      "completed": 7,
-      "expectedCompletions": 7,
-      "progressPercentage": 100,
-      "streak": 7,
-      "lastCompleted": "2025-12-11"
+      "completed": 8,
+      "expectedCompletions": 11,
+      "progressPercentage": 72,
+      "streak": 1,
+      "lastCompleted": "2025-12-16"
     }
   }
 ]

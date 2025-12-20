@@ -93,8 +93,8 @@ function shouldGenerateTaskToday(goal) {
     const todayString = new Date().toLocaleDateString("en-CA");
 
 
-    //already completed today
-    if (goal.metric.lastCompleted === todayString) {
+    //already completed or skipped today
+    if (goal.metric.lastCompleted === todayString || goal.metric.lastSkipped === todayString) {
         return false;
     }
 
@@ -283,7 +283,7 @@ function generateTodaysSchedule(goals) {
 // ============================================
 
 //update tasks as complete and update goal metrics
-function completeTask(goalId) {
+function completeTask(goalId, score = 100) {
     const goals = loadGoals();
     const goal = goals.find(g => g.id === goalId);
 
@@ -305,9 +305,20 @@ function completeTask(goalId) {
     };
 
     const progress = calculateProgress(updatedGoal);
-    const streak = calculateStreak(goal, todayString);
+    const streak = calculateStreak(goal, todayString, score);
+
+    // Create history entry
+    const historyEntry = {
+        type: 'COMPLETION',
+        date: todayString,
+        timestamp: Date.now(),
+        score: score
+    };
+
+    const newHistory = [...(goal.history || []), historyEntry];
 
     const updates = {
+        history: newHistory,
         metric: {
             ...goal.metric,
             completed: goal.metric.completed + 1,
@@ -315,6 +326,40 @@ function completeTask(goalId) {
             streak: streak,
             progressPercentage: progress.progressPercentage,
             expectedCompletions: progress.expectedCompletions
+        }
+    };
+
+    return updateGoal(goalId, updates);
+}
+
+//skip a task for today
+function skipTask(goalId, reason) {
+    const goals = loadGoals();
+    const goal = goals.find(g => g.id === goalId);
+
+    if (!goal) return false;
+
+    const todayString = new Date().toLocaleDateString("en-CA");
+
+    // Decays streak (similar to low score of 25 -> -0.5)
+    // We treat a skip as a break/decay in discipline, but handled.
+    const streak = calculateStreak(goal, todayString, 25);
+
+    const historyEntry = {
+        type: 'SKIP',
+        date: todayString,
+        timestamp: Date.now(),
+        reason: reason || "No reason provided"
+    };
+
+    const newHistory = [...(goal.history || []), historyEntry];
+
+    const updates = {
+        history: newHistory,
+        metric: {
+            ...goal.metric,
+            lastSkipped: todayString, // New field to track skip date separately
+            streak: streak
         }
     };
 
@@ -352,33 +397,56 @@ function calculateProgress(goal) {
 }
 
 //calculate streak for a goal
-function calculateStreak(goal, todayString) {
+function calculateStreak(goal, todayString, score = 100) {
     // One-time tasks don't have streaks
     if (goal.frequency === "one-time") return 0;
 
-    if (!goal.metric.lastCompleted) return 1;
+    // Determine streak delta based on score
+    // 100 -> +1.0
+    // 75  -> +0.5
+    // 50  -> +0.0 (maintain)
+    // 25  -> -0.5 (decay)
+    let delta = 0;
+    if (score >= 100) delta = 1;
+    else if (score >= 75) delta = 0.5;
+    else if (score >= 50) delta = 0;
+    else delta = -0.5;
 
+    // Handle initial streak
+    if (!goal.metric.lastCompleted) {
+        return Math.max(0, delta);
+    }
 
     const daysSinceLastCompleted = getDaysSince(goal.metric.lastCompleted, todayString);
+    let currentStreak = goal.metric.streak || 0;
+
+    // Check if streak was broken before this completion
+    let isBroken = false;
 
     if (goal.frequency === "daily") {
-        // Allow 1 day gap (grace period)
-        if (daysSinceLastCompleted <= 1) {
-            return goal.metric.streak + 1;
-        } else {
-            return 1;
+        // Allow 1 day gap (grace period) - daysSinceLastCompleted = 1 means consecutive days (yesterday -> today)
+        // If daysSinceLastCompleted > 1, we missed a day.
+        if (daysSinceLastCompleted > 1) {
+            isBroken = true;
+        }
+    }
+    else if (goal.frequency === "weekly") {
+        const weeksSinceLastCompleted = Math.floor(daysSinceLastCompleted / 7);
+        // Allow 1 week gap
+        if (weeksSinceLastCompleted > 1) {
+            isBroken = true;
         }
     }
 
-    if (goal.frequency === "weekly") {
-        const weeksSinceLastCompleted = Math.floor(daysSinceLastCompleted / 7);
-        // Allow 1 week gap
-        if (weeksSinceLastCompleted <= 1) {
-            return goal.metric.streak + 1;
-        } else {
-            return 1;
-        }
+    if (isBroken) {
+        // Reset streak if broken, then apply the current completion's value
+        // If we complete today after a break, we start a new streak.
+        // Base starting streak is 0.
+        currentStreak = 0;
     }
+
+    const newStreak = currentStreak + delta;
+    return Math.max(0, newStreak); // No negative streaks
 }
 
 // calculates full calendar days between two dates
@@ -434,6 +502,7 @@ module.exports = {
 
     // Task completion
     completeTask,
+    skipTask,
     calculateProgress,
     calculateStreak,
 

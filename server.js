@@ -5,6 +5,7 @@ const {
     loadGoals,
     generateTodaysSchedule,
     completeTask,
+    skipTask,
     addGoal
 } = require('./src/goalsManager');
 const {
@@ -61,7 +62,7 @@ app.post('/api/goals/:id/complete', (req, res) => {
         // Handle floating point IDs for one-time tasks or random ID generation overlap
         // The goalsManager uses strictly strict ID matching, but IDs are effectively numbers.
 
-        const success = completeTask(goalId);
+        const success = completeTask(goalId, req.body.score);
 
         if (success) {
             res.json({ success: true, message: 'Task completed' });
@@ -95,6 +96,25 @@ app.post('/api/goals', (req, res) => {
             res.status(500).json({ success: false, message: 'Failed to save goal' });
         }
     } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Skip a task
+app.post('/api/goals/:id/skip', (req, res) => {
+    try {
+        const goalId = parseInt(req.params.id) || parseFloat(req.params.id);
+        const { reason } = req.body;
+
+        const success = skipTask(goalId, reason);
+
+        if (success) {
+            res.json({ success: true, message: 'Task skipped' });
+        } else {
+            res.status(404).json({ success: false, message: 'Goal not found or failed to update' });
+        }
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
