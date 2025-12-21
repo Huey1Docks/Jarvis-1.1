@@ -2498,6 +2498,28 @@ canvas {
     color: var(--arc-reactor-blue);
 }
 
+/* Skip Task Button */
+.skip-task-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.skip-task-btn:hover {
+    border-color: var(--iron-red-light);
+    color: var(--iron-red-light);
+    background: rgba(255, 23, 68, 0.05); 
+    box-shadow: 0 0 10px rgba(255, 23, 68, 0.1);
+}
+
 .action-btn.primary:hover {
     background: var(--arc-reactor-blue);
     color: #000;

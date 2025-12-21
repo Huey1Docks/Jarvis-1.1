@@ -180,12 +180,21 @@
     ],
     "metric": {
       "dailyMinutes": 30,
-      "completed": 11,
-      "expectedCompletions": 11,
-      "progressPercentage": 100,
-      "streak": 11,
-      "lastCompleted": "2025-12-15"
-    }
+      "completed": 12,
+      "expectedCompletions": 16,
+      "progressPercentage": 75,
+      "streak": 0,
+      "lastCompleted": "2025-12-20"
+    },
+    "history": [
+      {
+        "type": "COMPLETION",
+        "date": "2025-12-20",
+        "timestamp": 1766302366625,
+        "score": 50,
+        "reason": "test"
+      }
+    ]
   },
   {
     "id": 1764913929388,

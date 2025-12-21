@@ -815,7 +815,7 @@ function showCompletionModal(goal, onCallback) {
     const html = `
         <div class="completion-modal">
             <h2>
-                <span>> COMPLETE TASK</span>
+                <span>COMPLETE TASK</span>
                 <span style="font-size: 0.8em; opacity: 0.7">${goal.description}</span>
             </h2>
             
@@ -839,7 +839,7 @@ function showCompletionModal(goal, onCallback) {
             </div>
 
             <div style="margin-top: 1rem; text-align: center;">
-                 <button type="button" class="reflection-btn" id="btn-skip-task" style="color: #666; font-size: 0.8em; border: none;">
+                 <button type="button" class="skip-task-btn" id="btn-skip-task">
                      SKIP THIS TASK
                  </button>
             </div>
